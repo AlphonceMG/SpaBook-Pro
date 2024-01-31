@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7f2; /* Soft green background color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .payment-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            width: 80%; /* Adjust the container width */
+            max-width: 400px; /* Limit the maximum width */
+        }
+
+        .payment-container h1 {
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 20px; /* Add spacing below the title */
+        }
+
+        .payment-form {
+            background-color: #f5f5f5; /* Add a background color to the form */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px; /* Increase spacing below labels */
+            display: block; /* Make labels block-level elements */
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px; /* Increase spacing between input fields */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #0074cc;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #005baa;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>M-Pesa Checkout</h1>
+        <div class="payment-form">
+            <form action="/mpesa/lipa-na-mpesa" method="POST">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" required>
+
+                <label for="paybill">Paybill Number:</label>
+                <input type="text" id="paybill" name="paybill" required>
+                <button type="submit">Pay with M-Pesa</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+ 

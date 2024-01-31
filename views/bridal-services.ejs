@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add Bootstrap CSS and Scrollspy JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>  
+<style>
+    #bridal{
+        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+        background-size: cover;
+        background-position: center;
+        height: 100vh; /* Set height to 100% of the viewport height */
+        display: flex; /* Use flexbox to center content vertically */
+        flex-direction: column; /* Stack flex items vertically */
+        justify-content: center; /* Center content vertically */
+        color: white; /* Set text color to contrast with the background */
+    }
+    #banner {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+        background-size: cover;
+        background-position: center;
+        height: 0px;
+    }
+    .logo {
+        width: 140px;
+        position: absolute;
+        top: 4%;
+        left: 10%;
+    }
+
+    .banner-text {
+        text-align: center;
+        color: #fff;
+        padding-top: 180px;
+    }
+
+    .banner-text h1 {
+        font-size: 30px;
+        font-family: "Kaushan Script";
+    }
+
+    .banner-text p {
+        font-size: 20px;
+        font-style: italic;
+    }
+    #bridal form {
+        text-align: center; /* Center align the form content */
+        margin-top: 10px; /* Add margin-top to the form */
+    }
+
+    #bridal form button {
+        margin-top: 10px; /* Add additional margin-top to the button */
+    }
+
+</style>
+</head>
+<body>
+    <section id="banner">
+        <a href="/">
+            <img src="/images/logo.png" class="logo" alt="Logo">
+        </a>
+        <div class="banner-text">
+            <!-- <h1>Eddah's Spa</h1>
+            <p>Indulge in Self-Care and Rejuvenation</p> -->
+        </div>
+    </section>
+
+    <section id="bridal"><!-- Bridal Services List -->
+        <div class="container mt-4">
+            <h2>Bridal Services</h2>
+            <!-- Render bridal service list items -->
+            <section class="bridal-service-section">
+                <ul class="list-group">
+                    <% for (const bridalService of bridalServices) { %>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold"><%= bridalService.name %></div>
+                            <span class="custom-price">Price: Ksh <%= bridalService.price %></span>
+                        </div>
+                        <button class="btn btn-primary toggle-bridal-service" data-bridal-service="<%= bridalService.name %>" data-selected="<%= bridalSelectedServices[bridalService.name] %>">+</button>
+                    </li>
+                    <% } %>
+                </ul>
+            </section>
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/bridal/registration">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+    <script>
+        // Initialize bridalSelectedServices object from server data
+        const bridalSelectedServices = <%- JSON.stringify(bridalSelectedServices) %>;
+
+        // Function to toggle bridal service selection and deselection on the client
+        function toggleBridalService(bridalServiceName) {
+            const selected = !bridalSelectedServices[bridalServiceName]; // Toggle the selection
+
+            // Send an AJAX request to update the server-side session
+            $.post('/bridal/services/select-deselect' + (selected ? '/select' : '/deselect'), { bridalServiceName }, function (data) {
+                if (data.success) {
+                    bridalSelectedServices[bridalServiceName] = selected; // Update the client-side data
+                    // Update the button text to either "+" or "-"
+                    const button = document.querySelector(`button[data-bridal-service="${bridalServiceName}"]`);
+                    button.textContent = selected ? '-' : '+';
+                } else {
+                    // Handle the case where the server request fails
+                    console.error('Failed to update server session:', data.error);
+                }
+            });
+        }
+
+        // Add event listeners to bridal service toggle buttons
+        const toggleButtons = document.querySelectorAll('.toggle-bridal-service');
+        toggleButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const bridalServiceName = button.getAttribute('data-bridal-service');
+                toggleBridalService(bridalServiceName);
+                // Change the button text to either "+" or "-"
+                button.textContent = button.textContent === '+' ? '-' : '+';
+            });
+        });
+    </script>
+</body>
+</html>

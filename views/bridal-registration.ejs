@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridal Booking</title>
+  <style>
+    body {
+      width: 500px;
+      margin: 0 auto;
+      padding: 50px;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+      background-size: cover;
+      height: 100vh;
+      color: white;
+      font-family: 'Nanum Gothic';
+    }
+
+    div.elem-group {
+      margin: 20px 0;
+    }
+
+    div.elem-group.inlined {
+      width: 49%;
+      float: left;
+      margin-right: 1%;
+    }
+
+    label {
+      display: block;
+      padding-bottom: 10px;
+      font-size: 1.25em;
+    }
+    input, select, textarea {
+      border-radius: 4px;
+      border: 2px solid #555;
+      box-sizing: border-box;
+      font-size: 1em;
+      width: 100%;
+      padding: 10px;
+    }
+
+    div.elem-group.inlined input {
+      width: 95%;
+      display: inline-block;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+    hr {
+      border: 1px dotted #ccc;
+    }
+
+    button {
+      height: 40px;
+      background: orange;
+      border: none;
+      color: white;
+      font-size: 1.25em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border: 2px solid black;
+    }
+
+    /* Media query for smaller viewports */
+    @media (max-width: 600px) {
+      div.elem-group.inlined {
+        width: 100%;
+        float: none;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form action="/bridal/registration" method="POST">
+    <div class="elem-group">
+      <label for="name">First Name</label>
+      <input type="text" id="firstName" name="firstName" placeholder="John" pattern="[A-Za-z]{3,20}" required>
+    </div>
+    <div class="elem-group">
+      <label for="name">Last Name</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Doe" pattern="[A-Za-z]{3,20}" required>
+    </div>
+    <div class="elem-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="emailAddress" name="emailAddress" placeholder="john.doe@email.com" required>
+    </div>
+    <div class="elem-group">
+      <label for="phone">Phone</label>
+      <input type="text" id="phoneNumber" name="phoneNumber" placeholder="+254" pattern="\+254[17][0-9]{8}" required>
+    </div>
+    <hr>
+    <div class="elem-group">
+      <label for="adult">Bride maids</label>
+      <input type="number" id="brideMaids" name="brideMaids" placeholder="2" min="0" required>
+    </div>
+    <div class="elem-group">
+      <label for="weddingDate">Wedding Date</label>
+      <input type="date" id="weddingDate" name="weddingDate" required>
+    </div>
+    <div class="elem-group">
+      <label for="location">Select Location (County)</label>
+      <select id="location" name="weddingLocation" required>
+        <option value="">Choose county from the List</option>
+        <option value="baringo">Baringo</option>
+        <option value="bomet">Bomet</option>
+        <option value="bungoma">Bungoma</option>
+        <option value="busia">Busia</option>
+        <option value="elgeyo marakwet">Elgeyo Marakwet</option>
+        <option value="embu">Embu</option>
+        <option value="garissa">Garissa</option>
+        <option value="homa bay">Homa Bay</option>
+        <option value="isiolo">Isiolo</option>
+        <option value="kajiado">Kajiado</option>
+        <option value="kakamega">Kakamega</option>
+        <option value="kericho">Kericho</option>
+        <option value="kiambu">Kiambu</option>
+        <option value="kilifi">Kilifi</option>
+        <option value="kirinyaga">Kirinyaga</option>
+        <option value="kisii">Kisii</option>
+        <option value="kisumu">Kisumu</option>
+        <option value="kitui">Kitui</option>
+        <option value="kwale">Kwale</option>
+        <option value="laikipia">Laikipia</option>
+        <option value="lamu">Lamu</option>
+        <option value="machakos">Machakos</option>
+        <option value="makueni">Makueni</option>
+        <option value="mandera">Mandera</option>
+        <option value="meru">Meru</option>
+        <option value="migori">Migori</option>
+        <option value="marsabit">Marsabit</option>
+        <option value="mombasa">Mombasa</option>
+        <option value="muranga">Muranga</option>
+        <option value="nairobi">Nairobi</option>
+        <option value="nakuru">Nakuru</option>
+        <option value="nandi">Nandi</option>
+        <option value="narok">Narok</option>
+        <option value="nyamira">Nyamira</option>
+        <option value="nyandarua">Nyandarua</option>
+        <option value="nyeri">Nyeri</option>
+        <option value="samburu">Samburu</option>
+        <option value="siaya">Siaya</option>
+        <option value="taita taveta">Taita Taveta</option>
+        <option value="tana river">Tana River</option>
+        <option value="tharaka nithi">Tharaka Nithi</option>
+        <option value="trans nzoia">Trans Nzoia</option>
+        <option value="turkana">Turkana</option>
+        <option value="uasin gishu">Uasin Gishu</option>
+        <option value="vihiga">Vihiga</option>
+        <option value="wajir">Wajir</option>
+        <option value="pokot">West Pokot</option>
+      </select>
+    </div>
+    <hr>
+    <button type="submit">Book Now</button>
+  </form>
+</body>
+<script>
+  var currentDateTime = new Date();
+  var year = currentDateTime.getFullYear();
+  var month = currentDateTime.getMonth() + 1;
+  var date = currentDateTime.getDate() + 1;
+
+  if (date < 10) {
+    date = '0' + date;
+  }
+  if (month < 10) {
+    month = '0' + month;
+  }
+
+  var dateTomorrow = year + "-" + month + "-" + date;
+  var weddingDate = document.querySelector("#weddingDate");
+
+  weddingDate.setAttribute("min", dateTomorrow);
+</script>
+</html>

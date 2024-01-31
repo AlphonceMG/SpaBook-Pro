@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add Bootstrap CSS and Scrollspy JavaScript -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+<style>
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+        min-height: 100vh;
+        margin-top: 100px;
+        margin-bottom: 0px; 
+        color: white; /* Optional: Set text color to contrast with the background */
+    }
+</style>
+
+</head>
+<body>
+<div class="container">
+    <h2>Add a New Service</h2>
+    <form action="/admin/addservice" method="POST" >
+        <div class="mb-3">
+            <label for="name" class="form-label">Service Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price ($)</label>
+            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+        </div>
+        <div class="mb-3">
+            <label for="time" class="form-label">Time (minutes)</label>
+            <input type="number" class="form-control" id="time" name="time" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Service</button>
+    </form>
+</div>
+</body>
+</html>

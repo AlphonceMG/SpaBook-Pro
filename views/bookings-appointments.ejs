@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddah's Spa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* Add some spacing */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-bottom: 0px; /* Adjust the value to your preference */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+            color: white; /* Optional: Set text color to contrast with the background */
+        }
+
+        .container-main {
+            padding-top: 80px; /* Adjust the value to your preference */
+            padding-bottom: 50px; /* Adjust the value to your preference */
+        }
+
+        /* Add margin to the footer */
+        footer {
+            margin-top: auto;
+            text-align: center; /* Center-align footer content */
+            padding: 10px 0;
+        }
+
+        /* Adjust styling for collapsed navigation */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 56px; /* Adjust the value to your preference */
+            }
+        }
+    </style>
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" style="background-color: #f8f9fa;">
+    <div class="container-main">
+        <div class="container mt-5">
+            <div id="accordion">
+                <!-- Collapsible Group Item for Staff -->
+                <div class="card">
+                    <div class="card-header" id="headingStaff">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseStaff"
+                                aria-expanded="true" aria-controls="collapseStaff">
+                                Choose a Staff Member
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseStaff" class="collapse show" aria-labelledby="headingStaff" data-parent="#accordion">
+                        <div class="card-body">
+                            <!-- Content for Collapsible Group Item (Staff) goes here -->
+                            <div id="staffAccordion">
+                                <!-- Move 'staff-list' outside the loop -->
+                                <div class="list-group" id="staff-list">
+                                    <!-- Loop through selected services and display staff for each category -->
+                                    <% selectedServices.forEach(service => { %>
+                                        <div class="card">
+                                            <div class="card-header" id="category<%= service.category %>">
+                                                <h6 class="mb-0">
+                                                    <button class="btn btn-link" data-bs-toggle="collapse"
+                                                        data-bs-target="#categoryCollapse<%= service.category %>"
+                                                        aria-expanded="true"
+                                                        aria-controls="categoryCollapse<%= service.category %>">
+                                                        Category: <%= service.category %>
+                                                    </button>
+                                                </h6>
+                                            </div>
+                                            <div id="categoryCollapse<%= service.category %>"
+                                                class="collapse show" aria-labelledby="category<%= service.category %>"
+                                                data-parent="#staffAccordion">
+                                                <!-- Display staff names and specialties for the selected category -->
+                                                <% staff.filter(staffMember => staffMember.specialty.includes(service.category)).forEach(staffMember => { %>
+                                                    <button type="button"
+                                                        class="list-group-item list-group-item-action selected-service select-staff-btn"
+                                                        data-staff="<%= staffMember.firstName %> <%= staffMember.lastName %>"
+                                                        data-specialty="<%= staffMember.specialty %>"
+                                                        data-staff-id="<%= staffMember._id %>"
+                                                        onclick="selectStaff(this)"
+                                                        <% if (isStaffAvailable(staffMember, selectedDateTime, service)) { %>
+                                                            disabled
+                                                        <% } %>
+                                                    >
+                                                        <%= staffMember.firstName %> <%= staffMember.lastName %> - <%= staffMember.specialty %>
+                                                    </button>
+                                                <% }); %>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Collapsible Group Item #2 -->
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                aria-expanded="false" aria-controls="collapseTwo">
+                                Book an Appointment
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <!-- Integrate the date and time picker here -->
+                            <div class="container">
+                                <div class="input-group">
+                                    <input type="text" id="datetimepicker" class="form-control"
+                                        placeholder="Select date and time">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Collapsible Group Item #3 for selected services -->
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                aria-expanded="false" aria-controls="collapseThree">
+                                Services
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                            <% console.log("selectedServices:", selectedServices); %>
+                            <ul>
+                                <!-- Loop through the selected services and generate a list -->
+                                <% selectedServices.forEach(service => { %>
+                                    <li><%= service.name %></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="/bookings/services">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/bookings/registration">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Link to Bootstrap JavaScript (optional, only needed if you require Bootstrap JavaScript functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    let selectedStaff = null;
+
+    function filterStaff() {
+        console.log('filterStaff called');
+        const specialty = document.getElementById('serviceCategory').value;
+        const staffList = document.getElementById('staff-list');
+        staffList.innerHTML = '';
+
+        // Filter staff based on the selected service category and check staff availability
+        fetch(`/bookings/appointments/staff?specialty=${specialty}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(staff => {
+                    const button = document.createElement('button');
+                    button.setAttribute('type', 'button');
+                    button.setAttribute('class', 'list-group-item list-group-item-action');
+                    button.setAttribute('data-staff', `${staff.firstName} ${staff.lastName}`);
+                    button.setAttribute('data-specialty', staff.specialty);
+                    button.setAttribute('data-staff-id', staff._id);
+                    button.classList.add('select-staff-btn');
+                    button.textContent = `${staff.firstName} ${staff.lastName} - ${staff.specialty}`;
+                    staffList.appendChild(button);
+
+                    // Attach event listener to each staff button
+                    button.addEventListener('click', selectStaff);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
+
+    function selectStaff() {
+        const selectedStaffId = this.getAttribute('data-staff-id');
+        const selectedStaffName = this.getAttribute('data-staff');
+        const selectedStaffSpecialty = this.getAttribute('data-specialty');
+
+        if (selectedStaffId && selectedStaffName) {
+            selectedStaff = {
+                id: selectedStaffId,
+                name: selectedStaffName,
+                specialty: selectedStaffSpecialty
+            };
+
+            // Update hidden input fields
+            document.getElementById('selectedStaffId').value = selectedStaffId;
+        }
+
+        // Enable the button after booking or removal
+        this.removeAttribute('disabled');
+
+        // Update the Category name with the selected staff's name
+        const categoryHeading = document.querySelector(`#category${selectedStaffSpecialty} button`);
+        if (categoryHeading) {
+            categoryHeading.textContent = `Category: ${selectedStaffName}`;
+        }
+        console.log('selectStaff called');
+    }
+
+    document.getElementById('staff-list').addEventListener('click', function (event) {
+        const clickedButton = event.target.closest('.select-staff-btn');
+        if (clickedButton) {
+            selectStaff.call(clickedButton); // Use .call() to set 'this' to the clicked button
+        }
+        console.log('Click on staff-list');
+    });
+
+    function updateCollapsibleGroupName() {
+        // Update the Category name with the selected staff's name
+        if (selectedStaff) {
+            const categoryHeading = document.querySelector(`#category${selectedStaff.specialty} button`);
+            if (categoryHeading) {
+                categoryHeading.textContent = `Category: ${selectedStaff.name}`;
+            }
+        }
+    }
+
+    // Handle the event when the Collapse Group #3 is expanded
+    document.querySelector('#collapseThree').addEventListener('shown.bs.collapse', function () {
+        // Explicitly update the DOM with selected services
+        const selectedServicesList = document.getElementById('selected-services-list');
+        selectedServicesList.innerHTML = '';
+        selectedServices.forEach(service => {
+            const listItem = document.createElement('li');
+            listItem.textContent = service.name;
+            selectedServicesList.appendChild(listItem);
+        });
+    });
+
+    let flatpickrInstance = null;
+    // Handle the event when the "Book an Appointment" section is expanded
+    document.querySelector('#collapseTwo').addEventListener('shown.bs.collapse', function () {
+        if (!flatpickrInstance) {
+            flatpickrInstance = flatpickr("#datetimepicker", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                minTime: "08:00",
+                maxTime: "18:00",
+                altInput: true,
+                altFormat: "F j, Y h:i K", // Use 'K' for AM/PM
+                time_24hr: false, // Use 12-hour time format
+            });
+        }
+    });
+</script>
+</body>
+</html>
+
+
+        <!-- <script>
+            function filterSpecialists() {
+                const serviceCategory = document.getElementById('serviceCategory').value;
+                const specialistList = document.getElementById('specialist-list');
+                specialistList.innerHTML = '';
+                
+                staff.forEach(staff => {
+                    if (staff.specialty.includes(serviceCategory) && isStaffAvailable(staff, selectedDateTime, selectedService)) {
+                        const button = document.createElement('button');
+                        button.setAttribute('type', 'button');
+                        button.setAttribute('class', 'list-group-item list-group-item-action');
+                        button.setAttribute('data-specialist', `${staff.firstName} ${staff.lastName}`);
+                        button.setAttribute('data-specialty', staff.specialty);
+                        button.setAttribute('data-staff-id', staff._id);
+                        button.setAttribute('onclick', 'selectStaff(this)');
+                        button.textContent = `${staff.firstName} ${staff.lastName} - ${staff.specialty}`;
+                        specialistList.appendChild(button);
+                    }
+                });
+            }
+            function selectStaff(button) {
+                const selectedStaffId = button.getAttribute('data-staff-id');
+                const selectedSpecialist = button.getAttribute('data-specialist');
+                if (selectedStaffId && selectedSpecialist) {
+                    document.querySelector('#collapseOne .card-header button').textContent = selectedSpecialist;
+                }
+
+                
+                button.removeAttribute('disabled');
+            }
+
+            let flatpickrInstance = null;
+          
+            document.querySelector('#collapseTwo').addEventListener('shown.bs.collapse', function () {
+                if (!flatpickrInstance) {
+                    flatpickrInstance = flatpickr("#datetimepicker", {
+                        enableTime: true,
+                        dateFormat: "Y-m-d H:i",
+                        minTime: "08:00",
+                        maxTime: "18:00",
+                        altInput: true,
+                        altFormat: "F j, Y h:i K", 
+                        time_24hr: false,
+                    });
+                }
+            });
+        </script> -->
+
+

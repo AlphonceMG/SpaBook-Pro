@@ -1,0 +1,33 @@
+{
+  "name": "eddahs-spa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "ngrok": "ngrok http 3000"
+  },
+  "author": "AlphonceMG",
+  "license": "ISC",
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.9",
+    "@fullcalendar/daygrid": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/list": "^6.1.9",
+    "@fullcalendar/timegrid": "^6.1.9",
+    "argon2": "^0.31.1",
+    "axios": "^1.5.1",
+    "body-parser": "^1.20.2",
+    "connect-mongo": "^5.0.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "mongoose": "^7.5.0",
+    "path": "^0.12.7",
+    "uuid": "^9.0.0"
+  }
+}

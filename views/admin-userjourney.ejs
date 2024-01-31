@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Journey Statistics</title>
+  <!-- Add Bootstrap and jQuery JavaScript CDNs -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+        min-height: 100vh;
+        margin-top: 60px;
+        margin-bottom: 0px; 
+        color: white; /* Optional: Set text color to contrast with the background */
+    }
+</style>
+
+</head>
+<body>
+  <div class="container mt-4">
+    <!-- Use the Bootstrap grid system for responsiveness -->
+    <div class="row">
+      <div class="col">
+        <h1 class="fs-2 text-center">User Journey Statistics</h1>
+      </div>
+    </div>
+    <!-- Search Component -->
+    <div class="row">
+        <div class="col container mb-3">
+            <input type="text" id="userjourney-search" class="form-control" placeholder="Search user journeys...">
+        </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <!-- Create a Bootstrap table with table-info class for coloring -->
+        <table class="table table-info">
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Timestamp</th>
+              <th>Action</th>
+              <th>User Agent</th>
+              <th>User ID</th>
+              <th>Action Description</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get the user journey statistics from the backend
+    // Get the user journey statistics from the backend
+    $.ajax({
+        url: '/admin/userjourney',
+        method: 'GET',
+        success: function(data) {
+            // Display the user journey statistics in the table
+            for (const statistic of data) {
+               const row = $('<tr></tr>');
+                row.append('<td>' + statistic.firstName + '</td>');
+                row.append('<td>' + statistic.lastName + '</td>');
+                row.append('<td>' + statistic.timestamp + '</td>');
+                row.append('<td>' + statistic.action + '</td>');
+                row.append('<td>' + statistic.useragent + '</td>');
+
+                // Handle multiple actions in the same cell
+                const actions = statistic.actionDescription.split('\n'); // Assuming '\n' is used as a delimiter
+                const actionsHtml = actions.map(action => '<p>' + action + '</p>').join('');
+                row.append('<td>' + actionsHtml + '</td>');
+
+                row.append('<td>' + statistic.userID + '</td>');
+                $('.table-info tbody').append(row);
+            }
+        }
+    });
+
+
+    // Function to filter user journeys based on the search term
+    const userJourneySearch = document.getElementById('userjourney-search');
+    function filterUserJourneys(searchTerm) {
+      const userJourneyRows = document.querySelectorAll('.table-info tbody tr');
+      userJourneyRows.forEach((row) => {
+        const rowData = row.textContent.toLowerCase();
+        if (rowData.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+    userJourneySearch.addEventListener('input', () => {
+      const searchTerm = userJourneySearch.value.toLowerCase();
+      filterUserJourneys(searchTerm);
+    });
+
+  </script>
+</body>
+</html>
+

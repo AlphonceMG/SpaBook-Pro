@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Registration</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
+    <style> 
+         /* Custom styles for the registration form */
+        
+        .vh-100 {
+            height: 100vh;
+        }
+        
+        .gradient-custom {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+            background-size: cover;
+            height: 100vh;
+        }
+        
+        .card-registration {
+            border-radius: 15px;
+        }
+        
+        .form-label {
+            color: #333;
+        }
+        
+        .form-control-lg {
+            border-color: #ccc;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        
+        /* Additional custom styles */
+        .custom-form-check-label {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="vh-100 gradient-custom">
+        <div class="container py-5 h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-7">
+                    <div class="card shadow-2-strong card-registration">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Staff Registration</h3>
+                    
+                            <form action="/staff/registration" method="POST"> <!-- Updated form action -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="text" id="firstName" name="firstName" class="form-control form-control-lg" required />
+                                            <label class="form-label" for="firstName">First Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="text" id="lastName" name="lastName" class="form-control form-control-lg" required />
+                                            <label class="form-label" for="lastName">Last Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                        <div class="form-outline">
+                                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control form-control-lg" required />
+                                            <label for="phoneNumber" class="form-label">Phone Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                        <div class="form-outline">
+                                            <input type="number" id="idNumber" name="idNumber" class="form-control form-control-lg" required />
+                                            <label for="idNumber" class="form-label">ID Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                        <div class="form-outline">
+                                            <input type="number" id="nextOfKinIdNumber" name="nextOfKinIdNumber" class="form-control form-control-lg" required />
+                                            <label for="nextOfKinIdNumber" class="form-label">Next Of Kin ID Number</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                        <div class="form-outline">
+                                            <select id="speciality" name="speciality" class="form-select form-select-lg" required>
+                                                <option value="" disabled selected>Select Speciality</option>
+                                                <option value="Lash Technician">Lash Technician</option>
+                                                <option value="Makeup Artist">Makeup Artist</option>
+                                                <option value="Permanent Makeup Artist">Permanent Makeup Artist</option>
+                                                <option value="Wax Specialist">Wax Specialist</option>
+                                                <option value="Facial Specialist">Facial Specialist</option>
+                                                <option value="Masseuse">Masseuse</option>
+                                                <option value="Masseur">Masseur</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <h6 class="mb-2 pb-1">Gender:</h6>
+                                        <div class="form-check form-check-inline custom-form-check-label">
+                                            <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Female" required />
+                                            <label class="form-check-label" for="femaleGender">Female</label>
+                                        </div>
+                                        <div class="form-check form-check-inline custom-form-check-label">
+                                            <input class="form-check-input" type="radio" name="gender" id="maleGender" value="Male" required />
+                                            <label class="form-check-label" for="maleGender">Male</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 pt-2">
+                                    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
+</body>
+</html>
+
+
+

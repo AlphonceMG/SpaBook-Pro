@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add Bootstrap CSS and Scrollspy JavaScript -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body data-spy="scroll" data-target="#navbar-example2">
+    <!-- Navbar -->
+    <nav id="navbar-example2" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Services</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Render service categories from data -->
+                <% for (const category of categories) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="#<%= category %>"><%= category %></a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search Component -->
+    <div class="container mb-3">
+        <input type="text" id="service-search" class="form-control" placeholder="Search services...">
+    </div>
+
+    <!-- Service Badge -->
+    <div class="container">
+        <span class="badge rounded-pill bg-success" id="service-badge">Selected Services: 0</span>
+    </div>
+
+    <div class="container mt-4">
+        <h2>Services</h2>
+        <!-- Render service categories and list items -->
+        <% for (const category of categories) { %>
+        <section class="service-section" id="<%= category %>">
+            <h3><%= category %></h3>
+            <ul class="list-group">
+                <% services[category].forEach((item) => { %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="fw-bold"><%= item.name %></div>
+                    <span class="custom-price">Price: Ksh <%= item.price %></span>
+                    <button class="btn btn-primary" onclick="toggleService('<%= item.name %>')" data-service="<%= item.name %>">+</button>
+                </li>
+                <% }); %>
+            </ul>
+        </section>
+        <% } %>
+    </div>
+
+    <script>
+        const selectedServices = new Set();
+
+        function toggleService(serviceName) {
+            if (selectedServices.has(serviceName)) {
+                selectedServices.delete(serviceName);
+            } else {
+                selectedServices.add(serviceName);
+            }
+            updateBadge();
+        }
+
+        function updateBadge() {
+            const badge = document.getElementById('service-badge');
+            badge.textContent = `Selected Services: ${selectedServices.size}`;
+        }
+
+        const searchInput = document.getElementById('service-search');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const serviceSections = document.querySelectorAll('.service-section');
+
+            serviceSections.forEach((section) => {
+                const listItems = section.querySelectorAll('li');
+                listItems.forEach((item) => {
+                    const serviceName = item.querySelector('.fw-bold').textContent.toLowerCase();
+                    if (serviceName.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.0.7/css/boxicons.min.css">
+    <title>Eddahs-spa</title>
+<style>
+        /*  CSS styles */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+#banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), #009688), url(/images/banner.png);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.logo {
+    width: 140px;
+    position: absolute;
+    top: 4%;
+    left: 10%;
+}
+
+.banner-text {
+    text-align: center;
+    color: #fff;
+    padding-top: 180px;
+}
+
+.banner-text h1 {
+    font-size: 130px;
+    font-family: "Kaushan Script";
+}
+
+.banner-text p {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.banner-btn {
+    margin: 76px auto;
+}
+
+.banner-btn a {
+    width: 150px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0 10px;
+    padding: 12px 0;
+    color: #fff;
+    border: 0.5px solid #fff;
+    position: relative;
+    z-index: 1;
+    transition: color 0.5s;
+}
+
+.banner-btn a span {
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fff;
+    z-index: -1;
+    transition: 0.5s;
+}
+
+.banner-btn a:hover span {
+    width: 100%;
+}
+
+.banner-btn a:hover {
+    color: #000;
+}
+
+#sideNav {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    right: -250px;
+    top: 0;
+    background: #009688;
+    z-index: 2;
+    transition: 0.5s;
+}
+
+nav ul li {
+    list-style: none;
+    margin: 50px 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+}
+
+#menuBtn {
+    width: 50px;
+    height: 50px;
+    background: #009688;
+    text-align: center;
+    position: fixed;
+    right: 30px;
+    top: 20px;
+    border-radius: 3px;
+    z-index: 3;
+    cursor: pointer;
+}
+
+#menuBtn img {
+    width: 20px;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 770px) {
+    .banner-text h1 {
+        font-size: 44px;
+    }
+    .banner-btn a {
+        display: block;
+        margin: 20px auto;
+    }
+}
+
+
+/* /--features--/  */
+
+#features {
+    width: 100%;
+    padding: 70px 0;
+}
+
+.title-text p {
+    margin: auto;
+    font-size: 20px;
+    color: #009688;
+    font-weight: bold;
+}
+
+.title-text {
+    text-align: center;
+    padding-bottom: 70px;
+}
+
+.title-text h1 {
+    font-size: 50px;
+}
+
+.title-text p {
+    margin: auto;
+    font-size: 20px;
+    color: #009688;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+}
+
+.title-text p::after {
+    content: "";
+    width: 50px;
+    height: 35px;
+    background: linear-gradient(#019587, #fff);
+    position: absolute;
+    top: -20px;
+    left: 0;
+    z-index: -1;
+    transform: rotate(10deg);
+    border-top-left-radius: 35px;
+    border-bottom-right-radius: 35px;
+}
+
+.features-box {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+}
+
+.features {
+    flex-basis: 50%;
+}
+
+.features-img {
+    flex-basis: 50%;
+    margin: auto;
+}
+
+.features-img img {
+    width: 70%;
+    border-radius: 10px;
+    margin: right;
+}
+
+.features h1 {
+    text-align: left;
+    margin-bottom: 10px;
+    font-weight: 100;
+    color: #009688;
+}
+
+.features-desc {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.features-icon .bx {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    line-height: 50px;
+    border-radius: 8px;
+    color: #009688;
+    border: 1px solid #009688;
+}
+
+.features-text p {
+    padding: 0 20px;
+    text-align: initial;
+}
+
+@media screen and (max-width: 770px) {
+    .title-text h1 {
+        font-size: 35px;
+    }
+    .features {
+        flex-basis: 100%;
+    }
+    .features-img {
+        flex-basis: 100%;
+    }
+    .features-img img {
+        width: 100%;
+    }
+}
+
+
+/* /--services--/ */
+
+#services {
+    width: 100%;
+    padding: 70px 0;
+    background: #efefef;
+}
+
+.sevice-box {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: auto;
+}
+
+.single-service {
+    flex-basis: 48%;
+    text-align: center;
+    border-radius: 7px;
+    margin-bottom: 20px;
+    color: #fff;
+    position: relative;
+}
+
+.single-service img {
+    width: 100%;
+    border-radius: 7px;
+    margin: flex;
+}
+
+
+/* .container {
+    max-width: 1200px;
+    width: 90%;
+    margin: auto;
+} */
+
+.img-box {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.img-box img {
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 600px;
+    height: auto;
+}
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+    opacity: 0;
+    transition: 1s;
+}
+
+.single-service:hover .overlay {
+    opacity: 1;
+}
+
+.service-desc {
+    width: 80%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    opacity: 1s;
+    transform: translate(-50%);
+    transition: 1s;
+}
+
+.hr {
+    background: #fff;
+    height: 2px;
+    border: 0;
+    margin: 15px auto;
+    width: 60%;
+}
+
+.service-desc p {
+    font-size: 14px;
+}
+
+.single-service:hover .service-desc {
+    bottom: 40%;
+    opacity: 1s;
+}
+
+@media screen and (max-width: 770px) {
+    .sevice-box {
+        width: 100%;
+    }
+    .single-service {
+        flex-basis: 100%;
+        margin-bottom: 30px;
+    }
+    .service-desc {
+        font-size: 12px;
+    }
+    hr {
+        margin: 5px auto;
+    }
+    .single-service:hover .service-desc {
+        bottom: 25% !important;
+    }
+    .img-box img {
+        margin-bottom: 20px;
+        width: 300px;
+        height: auto;
+    }
+}
+
+#testimonial {
+    width: 100%;
+    padding: 70px 0;
+}
+
+.testimonial-row {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.testimonial-col {
+    flex-basis: 28%;
+    padding: 10px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 10px 20px 3px #00968814;
+}
+
+.testimonial-col {
+    font-size: 14px;
+}
+
+
+/*--footer--*/
+
+#footer {
+    padding: 100px 0 20px;
+    background: #efefef;
+    position: relative;
+}
+
+.footer-row {
+    display: flex;
+}
+
+.footer-left,
+.footer-right {
+    flex-basis: 45%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-row h1 {
+    margin: 10px 0;
+}
+
+.footer-row p {
+    line-height: 35px;
+}
+
+.footer-left .bx,
+.footer-right .bx {
+    font-size: 20px;
+    color: #009688;
+    margin: 10px;
+}
+
+.footer-img {
+    max-width: 370px;
+    opacity: 0.1;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -50%);
+}
+
+.social-links {
+    text-align: center;
+}
+
+.social-links .bx {
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    border: 1px solid #009688;
+    margin: 40px 5px 0;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.social-links .bx:hover {
+    background: #009688;
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+@media screen and (max-width: 770px) {
+    .footer-row {
+        flex-direction: column;
+    }
+    .footer-left,
+    .footer-right {
+        flex-basis: 100%;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+    .footer-right {
+        text-align: left;
+    }
+    .features-img {
+        top: 25px;
+    }
+}
+
+
+/* ........./ Testimonial /.......... */
+
+#testimonials {
+    padding: 5rem 0;
+}
+
+.testimonial-title {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.testimonial-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.4rem;
+    padding: 1rem;
+}
+
+.testimonial-box .checked {
+    color: #ff9529;
+}
+
+.testimonial-box .testimonial-text {
+    margin: 1rem 0;
+    color: #444;
+}
+
+.testimonial-box {
+    text-align: center;
+    padding: 1rem;
+}
+
+.customer-photo img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    margin: auto;
+}
+
+@media (max-width: 500px) {
+    .testimonial-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <section id="banner">
+        <img src="/images/logo.png" class="logo">
+        <div class="banner-text">
+            <h1>Eddah's Spa</h1>
+            <p>Indulge in Self-Care and Rejuvenation</p>
+            <div class="banner-btn">
+                <a href="\bookings\services"><span></span><b>Book Spa Date</b></a>
+                <a href="\bridal\services"><span></span><b>Weddings</b></a>
+            </div>
+        </div>
+    </section>
+    <!-- <div id="sideNav">
+        <nav>
+            <ul>
+                <li><a href="#banner">HOME</a></li>
+                <li><a href="#features">FEATURES</a></li>
+                <li><a href="#service">SERVICES</a></li>
+                <li><a href="#testimonials">TESTIMONIALS</a></li>
+                <li><a href="#footer">MEET US</a></li>
+            </ul>
+        </nav>
+    </div> -->
+    <!-- <div id="menuBtn">
+        <img src="https://i.postimg.cc/j5RRCtb2/menu.png" id="menu">
+    </div> -->
+
+    <!-- Features -->
+    <section id="features">
+        <div class="title-text">
+            <p>FEATURES</p>
+            <h1>Why Choose Us</h1>
+        </div>
+        <div class="features-box">
+            <div class="features">
+                <h1><b>Experienced Staff</b></h1>
+                <div class="features-desc">
+                    <div class="features-icon">
+                        <i class='bx bx-check-shield'></i>
+                    </div>
+                    <div class="features-text">
+                        <p>At Eddah's kenya beauty clinic, we take pride in our team of Certified Permanent Makeup Artists (MUA) and Lash Artists who have undergone rigorous training and certification.</p>
+                    </div>
+                </div>
+                <h1><b>Pre Booking Online</b></h1>
+                <div class="features-desc">
+                    <div class="features-icon">
+                        <i class='bx bx-check-square'></i>
+                    </div>
+                    <div class="features-text">
+                        <p>Experience the luxury of convenience with our online pre-booking system. Our website offers you the flexibility to not only schedule your appointments but also select your preferred specialist for each service.</p>
+                    </div>
+                </div>
+                <h1><b>Affordable Cost</b></h1>
+                <div class="features-desc">
+                    <div class="features-icon">
+                        <i class='bx bx-rupee'></i>
+                    </div>
+                    <div class="features-text">
+                        <p>At our spa, we believe that luxury should not be a privilege, but a standard. We are committed to providing top-tier services at prices that are accessible to all.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="features-img">
+                <img src="/images/features.png">
+            </div>
+        </div>
+    </section>
+
+    <section id="service">
+        <div class="title-text">
+            <p>SERVICES</p>
+            <h1><b>We Provide Better</b></h1>
+        </div>
+        <div class="service-box container">
+          
+            <!-- Your service content here -->
+           <div class="img-box container">
+                <div class="single-service">
+                    <img src="/images/massage.png">
+                    <div class="overlay"></div>
+                    <div class="service-desc">
+                        <h3>Massage</h3>
+                        <hr>
+                        <p>Relax and rejuvenate with our range of massage services. We offer a soothing Swedish massage, a deep tissue massage for those stubborn knots, and a special couple's body massage for shared relaxation.</p>
+                    </div>
+                </div>
+                <div class="single-service">
+                    <img src="/images/facials.png">
+                    <div class="overlay"></div>
+                    <div class="service-desc">
+                        <h3>Facials</h3>
+                        <hr>
+                        <p>Pamper your skin with our facial services. Choose from our full facial for a complete skincare routine or our back facial for those hard-to-reach areas. Experience a radiant glow and refreshed skin with our expert care.</p>
+                    </div>
+                </div>
+                <div class="single-service">
+                    <img src="/images/lashes.png">
+                    <div class="overlay"></div>
+                    <div class="service-desc">
+                        <h3>Lashes</h3>
+                        <hr>
+                        <p>Enhance your eyes with our range of lash services. We offer Citizen Lashes for a natural look, Classic Lashes for a timeless appeal, Hybrid Lashes for the perfect balance, and Mega Volume Lashes for a dramatic effect</p>
+                    </div>
+                </div>
+                <div class="single-service">
+                    <img src="/images/microblading.png">
+                    <div class="overlay"></div>
+                    <div class="service-desc">
+                        <h3>Eyebrows</h3>
+                        <hr>
+                        <p>Discover the perfect brows for you with our range of services. Microblading for a natural, hair-like look, Microshading for a soft, filled-in appearance, and Combination brows for the best of both worlds.</p>
+                    </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+              <!--Testimonial-->
+    <!-- <section id="testimonial">
+        <div class="title-text">
+            <p>TESTIMONIALS</p>
+            <h1><b>What Clients Say</b></h1>
+        </div>
+        <div class="testimonial-row">
+            <div class="testimonial-col">
+                <p>Donec eget ultricies sapi. St ultricies sapi. Sed porttitor, mauris ater lob facilisis,elit sapie eleifend ligula.Donec eget ultricies sapi. Sed porttitor, mauris</p>
+            </div>
+            <div class="testimonial-col">
+                <p>Donec eget ultricies sapi. Sed porttitor, mauris ater lob facilisis,elit sapie eleifend ligula.Donec eget ultricies sapi. Sed porttitor, mauris.</p>
+            </div>
+            <div class="testimonial-col">
+                <p>Donec eget ultricies sapi. Sed porttitor, mauris ater ricies sapi. Sed porttitor, mauris ater lob facilisis,elit sapie eleifend ligula.Donec eget ultricies sapi. Sed porttitor, mauris
+                </p>
+            </div>
+        </div>
+    </section> -->
+    <!-- Services -->
+    <section id="testimonials">
+      <!-- <h2 class="testimonial-title">What Our Customers Say</h2> -->
+        <div class="title-text">
+            <p>TESTIMONIALS</p>
+            <h1><b>What Our Customers Say</b></h1>
+        </div>
+        <div class="testimonial-container container">
+            <!-- Your testimonials content here -->
+                  <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="https://i.postimg.cc/5Nrw360Y/male-photo1.jpg" alt="" />
+                        <p class="customer-name">Ross Lee</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                </div>
+                <p class="testimonial-text">
+                    The specialists at Eddah's made me feel pampered and beautiful. Top-notch services!
+                </p>
+
+            </div>
+            <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="https://i.postimg.cc/c1k4jFvZ/alexander-hipp-iEEBWgY_6lA-unsplash.jpg" alt="" />
+                        <p class="customer-name">Sam Root</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                </div>
+                <p class="testimonial-text">
+                    A visit to Eddah's Beauty Clinic is like a mini vacation for my soul. Highly recommended!
+                </p>
+
+            </div>
+            <div class="testimonial-box">
+                <div class="customer-detail">
+                    <div class="customer-photo">
+                        <img src="https://i.postimg.cc/fy90qvkV/male-photo3.jpg" alt="" />
+                        <p class="customer-name">Ben Roy</p>
+                    </div>
+                </div>
+                <div class="star-rating">
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                    <span class="fa fa-star checked"><i class='bx bxs-star'></i></span>
+                </div>
+                <p class="testimonial-text">
+                    Exceptional service! The specialists here work wonders. A truly rejuvenating experience.
+                </p>
+
+            </div>
+        </div>
+    </section>    
+
+    <!-- Footer -->
+    <section id="footer">
+        <img src="/images/logo.png" class="footer-img">
+        <div class="title-text">
+            <p>CONTACT</p>
+            <h1>Visit Us Today</h1>
+        </div>
+        <div class="footer-row">
+            <div class="footer-left">
+                <h1>Opening Hours</h1>
+                <p><i class='bx bxs-time'></i>Monday to Saturday - 9am to 6pm</p>
+            </div>
+            <div class="footer-right">
+                <h1>Get In Touch</h1>
+                <p>Opposite IEBC Government road, Nakuru<i class='bx bx-map'></i></p>
+                <p>+254700339606<i class='bx bx-phone'></i></p>
+            </div>
+        </div>
+        <div class="social-links">
+            <i class='bx bxl-facebook'></i>
+            <i class='bx bxl-instagram'></i>
+            <i class='bx bxl-twitter'></i>
+            <i class='bx bxl-youtube'></i>
+        </div>
+    </section>
+
+    <!-- Your JavaScript code goes here -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>     
+    <script>
+        var menuBtn = document.getElementById("menuBtn");
+        var sideNav = document.getElementById("sideNav");
+        var menu = document.getElementById("menu");
+        sideNav.style.right = "-250px";
+        menuBtn.onclick = function() {
+            if (sideNav.style.right == "-250px") {
+                sideNav.style.right = "0";
+                menu.src = "https://i.postimg.cc/cJRss6PP/close.png";
+            } else {
+                sideNav.style.right = "-250px";
+                menu.src = "https://i.postimg.cc/j5RRCtb2/menu.png";
+            }
+        }
+      
+        $(document).ready(function() {
+            $("a").on('click', function(event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+                    var hash = this.hash;
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function() {
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+          
+</body>
+</html>
