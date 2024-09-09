@@ -1,11 +1,8 @@
-const mongoose = require('mongoose');
-require('./app'); // Import the app.js file
+import mongoose from "mongoose"
+import app from "./app.js" // Import the app.js file
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/eddahsDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect('mongodb://127.0.0.1:27017/eddahsDB')
   .then(() => {
     console.log('Connected to MongoDB');
     // Call the function to insert initial services, bridal services, and staff data
@@ -326,7 +323,6 @@ const insertInitialBridalServices = async () => {
     console.error('Error inserting initial bridal services:', error);
   }
 };
-
 
 // Function to insert initial staff data into the database
 const insertInitialStaff = async () => {

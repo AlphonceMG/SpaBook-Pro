@@ -26,6 +26,4 @@ const current_timestamp = () => {
 
 };
 
-module.exports = {
-    timestamp : current_timestamp()
-};
+export const timestamp = current_timestamp();
