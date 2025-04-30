@@ -3,151 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings Registration</title>
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
-    <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <style> 
-        /* Custom styles for the registration form */
-        .vh-100 {
-            height: 100vh;
-        }
-
-        .gradient-custom {
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
             background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-            background-size: cover;
-            height: 100vh;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
         }
-
-        .card-registration {
-            border-radius: 15px;
-        }
-
-        .form-label {
+        .registration-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 20px;
             color: #333;
         }
-
-        .form-control-lg {
-            border-color: #ccc;
+        .appointment-summary {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
         }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+        .appointment-details {
+            border-left: 3px solid #009688;
+            padding-left: 15px;
+            margin: 10px 0;
         }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        /* Additional custom styles */
-        .custom-form-check-label {
-            margin-right: 20px;
+        .total-deposit {
+            background-color: #009688;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <section class="vh-100 gradient-custom">
-        <div class="container py-5 h-100">
-            <div class="row justify-content-center align-items-center h-100">
-                <div class="col-12 col-lg-9 col-xl-7">
-                    <div class="card shadow-2-strong card-registration">
-                        <div class="card-body p-4 p-md-5">
-                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Bookings Registration</h3>
-                            <form action="/bookings/registration" method="POST">
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <input type="text" id="firstName" name="firstName" class="form-control form-control-lg" required />
-                                            <label class="form-label" for="firstName">First Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <input type="text" id="lastName" name="lastName" class="form-control form-control-lg" required />
-                                            <label class="form-label" for="lastName">Last Name</label>
-                                        </div>
-                                    </div>
-                                </div>
+    <div class="container">
+        <div class="registration-container">
+            <h2 class="text-center mb-4">Registration Details</h2>
 
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control form-control-lg" required />
-                                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-outline">
-                                            <input type="email" id="emailAddress" name="email" class="form-control form-control-lg" />
-                                            <label class="form-label" for="emailAddress">Email</label>
-                                        </div>
-                                    </div>
-                                </div>
+            <% if (error) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
 
-                                <div class="row">
-                                  
-                                    <div class="col-md-6 mb-4">
-                                        <h6 class="mb-2 pb-1">Gender:</h6>
-                                        <div class="form-check form-check-inline custom-form-check-label">
-                                            <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Female" required />
-                                            <label class="form-check-label" for="femaleGender">Female</label>
-                                        </div>
-                                        <div class="form-check form-check-inline custom-form-check-label">
-                                            <input class="form-check-input" type="radio" name="gender" id="maleGender" value="Male" required />
-                                            <label class="form-check-label" for="maleGender">Male</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mt-4 pt-2">
-                                    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
-                                </div>
-                                <div class="mt-4 pt-2">
-                                    <button type="button" class="btn btn-success d-none" id="bookingBadge">
-                                        <span id="bookingBadge" class="badge badge-success ms-2"></span>
-                                    </button>
-                                </div>
-                                <input type="hidden" id="bookingStatus" name="bookingStatus" value="" />
-                            </form>
-                        </div>
+            <div class="appointment-summary mb-4">
+                <h4>Your Appointments</h4>
+                <% appointments.forEach((appointment, index) => { %>
+                    <div class="appointment-details">
+                        <h5>Appointment <%= index + 1 %></h5>
+                        <p><strong>Service:</strong> <%= appointment.service.name %></p>
+                        <p><strong>Staff:</strong> <%= appointment.staff.name %></p>
+                        <p><strong>Date & Time:</strong> <%= new Date(appointment.selectedDateTime).toLocaleString() %></p>
+                        <p><strong>Deposit Required:</strong> Ksh <%= (appointment.service.price * 0.6).toFixed(2) %></p>
                     </div>
+                <% }); %>
+                
+                <div class="total-deposit">
+                    Total Deposit Required: Ksh <%= totalDeposit.toFixed(2) %>
                 </div>
             </div>
+
+            <form action="/bookings/registration" method="POST">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email (Optional)</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Gender</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
+                        <label class="form-check-label" for="male">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+                        <label class="form-check-label" for="female">Female</label>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+                    <a href="/bookings/appointments" class="btn btn-secondary">Back to Appointments</a>
+                </div>
+            </form>
         </div>
-    </section>
-    <!-- MDB -->
-<script
-    type="text/javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-<script>
-    // Function to update the badge text based on the booking status
-    function updateBadge(bookingStatus) {
-        const badge = document.getElementById('bookingBadge');
-        if (badge) {
-            if (bookingStatus) {
-                badge.textContent = bookingStatus;
-                badge.className = 'btn btn-success'; // Add success styling
-                badge.children[0].className = 'badge badge-success ms-2'; // Add success styling to badge text
-                badge.classList.remove('d-none'); // Remove 'd-none' to show the badge
-            } else {
-                // If there's no booking status message, hide the badge
-                badge.classList.add('d-none');
-            }
-        }
-    }
-    // Call the function to initialize the badge text based on the initial booking status
-    const initialBookingStatus = ''; // This value should come from your template engine
-    updateBadge(initialBookingStatus);
-</script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

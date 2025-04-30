@@ -226,79 +226,51 @@ const initialStaffData = [
   {
     firstName: 'Eddah',
     lastName: 'Doe',
-    phoneNumber: '111-111-1111',
+    phoneNumber: '+254712345678',
     gender: 'Female',
     email: 'johndoe@example.com',
     idNumber: '12345678',
     nextOfKinIdNumber: '87654321',
-    specialty: 'Waxing, Eyebrows, Body Massage, Body Scrubs, Facials', // Change to a comma-separated string
-    appointments: [
-      {
-        datetime: new Date('2023-11-15T10:00:00'),
-      },
-      {
-        datetime: new Date('2023-11-16T14:30:00'),
-      },
-    ],
-    role: 'staff', // Change to a valid enum value
+    specialty: 'Waxing, Eyebrows, Body Massage, Body Scrubs, Facials',
+    appointments: [],
+    role: 'staff'
   },
   {
     firstName: 'Esther',
     lastName: 'Doe',
-    phoneNumber: '111-111-1111',
+    phoneNumber: '+254723456789',
     gender: 'Female',
     email: 'estherdoe@example.com',
-    idNumber: '12345678',
-    nextOfKinIdNumber: '87654321',
-    specialty: 'Waxing, Body Massage, Body Scrubs, Facials',
-    appointments: [
-      {
-        datetime: new Date('2023-11-15T10:00:00'),
-      },
-      {
-        datetime: new Date('2023-11-16T14:30:00'),
-      },
-    ],
-    role: 'staff',
+    idNumber: '23456789',
+    nextOfKinIdNumber: '98765432',
+    specialty: 'Waxing, Body Massage, Body Scrubs, Facials, Steamings',
+    appointments: [],
+    role: 'staff'
   },
   {
     firstName: 'Mercy',
     lastName: 'Doe',
-    phoneNumber: '222-222-2222',
+    phoneNumber: '+254734567890',
     gender: 'Female',
     email: 'mercydoe@example.com',
-    idNumber: '12345678',
-    nextOfKinIdNumber: '87654321',
-    specialty: 'Waxing, Body Massage, Body Scrubs, Facials',
-    appointments: [
-      {
-        datetime: new Date('2023-11-15T10:00:00'),
-      },
-      {
-        datetime: new Date('2023-11-16T14:30:00'),
-      },
-    ],
-    role: 'staff',
+    idNumber: '34567890',
+    nextOfKinIdNumber: '09876543',
+    specialty: 'Waxing, Body Massage, Body Scrubs, Facials, Steamings',
+    appointments: [],
+    role: 'staff'
   },
   {
     firstName: 'Peter',
     lastName: 'Doe',
-    phoneNumber: '333-333-3333',
+    phoneNumber: '+254745678901',
     gender: 'Male',
     email: 'peterdoe@example.com',
-    idNumber: '12345678',
-    nextOfKinIdNumber: '87654321',
-    specialty: 'Body Scrubs, Facial, Body Massage, Lashes',
-    appointments: [
-      {
-        datetime: new Date('2023-11-15T10:00:00'),
-      },
-      {
-        datetime: new Date('2023-11-16T14:30:00'),
-      },
-    ],
-    role: 'staff',
-  },
+    idNumber: '45678901',
+    nextOfKinIdNumber: '10987654',
+    specialty: 'Body Scrubs, Facial, Body Massage, Lashes, Steamings',
+    appointments: [],
+    role: 'staff'
+  }
 ];
 
 

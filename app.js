@@ -4,12 +4,12 @@ import ejs from "ejs";
 import mongoose from "mongoose";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import flash from "flash";
+import flash from "connect-flash";
 import path from "path";
 import { config } from "dotenv";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import mpesa from "./routes/index.js";
+import mpesaRoutes from "./endpoints/mpesaRoutes.js";
 import Staff from "./models/Staff.js";
 import Admin from "./models/Admin.js";
 import BridalBooking from "./models/BridalBooking.js";
@@ -23,6 +23,7 @@ import bookingRoutes from "./endpoints/bookingsRoutes.js";
 import bridalRoutes from "./endpoints/bridalRoutes.js";
 import servicesRoutes from "./endpoints/servicesRoutes.js";
 import staffRoutes from "./endpoints/staffRoutes.js";
+import { logger } from "./utils/logger.js";
 
 config();
 
@@ -30,6 +31,11 @@ const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+logger.bookingProcess("Application starting up", {
+	timestamp: new Date().toISOString(),
+	environment: process.env.NODE_ENV || 'development'
+});
 
 //app configurations
 app.use(express.json());
@@ -63,9 +69,11 @@ mongoose
 	.connect("mongodb://127.0.0.1:27017/eddahsDB")
 	.then(() => {
 		console.log("MongoDB connected successfully");
+		logger.bookingProcess("MongoDB connected successfully");
 	})
 	.catch((err) => {
 		console.error("MongoDB connection error:", err);
+		logger.error("MongoDB connection error", err);
 	});
 
 // Define a middleware function to log user actions
@@ -188,10 +196,10 @@ app.use(staffRoutes);
 app.use(servicesRoutes);
 app.use(bookingRoutes);
 app.use(bridalRoutes);
+app.use('/mpesa', mpesaRoutes);
 
 // mpesa routes
 // const mpesa = require("./routes/index.js");
-app.use("/mpesa", mpesa);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

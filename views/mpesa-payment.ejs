@@ -3,83 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M-Pesa Checkout</title>
+    <title>M-Pesa Payment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #e6f7f2; /* Soft green background color */
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            padding: 20px;
         }
 
         .payment-container {
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            background-color: white;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            text-align: center;
-            width: 80%; /* Adjust the container width */
-            max-width: 400px; /* Limit the maximum width */
-        }
-
-        .payment-container h1 {
-            margin-top: 0;
-            font-size: 24px;
-            margin-bottom: 20px; /* Add spacing below the title */
-        }
-
-        .payment-form {
-            background-color: #f5f5f5; /* Add a background color to the form */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        label {
-            font-weight: bold;
-            margin-bottom: 10px; /* Increase spacing below labels */
-            display: block; /* Make labels block-level elements */
-        }
-
-        input[type="text"] {
-            padding: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             width: 100%;
-            margin-bottom: 15px; /* Increase spacing between input fields */
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            max-width: 500px;
         }
 
-        button[type="submit"] {
-            background-color: #0074cc;
-            color: #fff;
-            padding: 10px 20px;
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .payment-header h1 {
+            color: #009688;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .amount-display {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .amount-display .amount {
+            font-size: 24px;
+            color: #009688;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .btn-mpesa {
+            background-color: #009688;
+            color: white;
+            padding: 12px 30px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 6px;
+            width: 100%;
+            font-weight: 500;
+            margin-top: 20px;
         }
 
-        button[type="submit"]:hover {
-            background-color: #005baa;
+        .btn-mpesa:hover {
+            background-color: #00796b;
+        }
+
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        .payment-instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .payment-instructions h5 {
+            color: #009688;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="payment-container">
-        <h1>M-Pesa Checkout</h1>
-        <div class="payment-form">
-            <form action="/mpesa/payment" method="POST">
-                <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone" required>
+        <div class="payment-header">
+            <h1>M-Pesa Payment</h1>
+            <p class="text-muted">Complete your booking payment</p>
+        </div>
 
-                <label for="paybill">Paybill Number:</label>
-                <input type="text" id="paybill" name="paybill" required>
-                <button type="submit">Pay with M-Pesa</button>
-            </form>
+        <% if (error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <div class="amount-display">
+            <p class="mb-1">Total Amount to Pay:</p>
+            <div class="amount">Ksh <%= totalAmount.toFixed(2) %></div>
+        </div>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Test Mode:</strong> This is running in test mode. The payment will be sent to the registered test phone number (254793004830).
+        </div>
+
+        <form id="mpesaForm" action="/mpesa/payment" method="POST">
+            <input type="hidden" name="amount" value="<%= totalAmount %>">
+            <input type="hidden" name="bookingIds" value="<%= JSON.stringify(bookingIds) %>">
+
+            <button type="submit" class="btn btn-mpesa">
+                Pay with M-Pesa
+            </button>
+        </form>
+
+        <div class="payment-instructions">
+            <h5>Payment Instructions:</h5>
+            <ol class="mb-0">
+                <li>Click "Pay with M-Pesa"</li>
+                <li>Wait for the M-Pesa prompt on your test phone (254793004830)</li>
+                <li>Enter your M-Pesa PIN to complete the payment</li>
+            </ol>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#mpesaForm').on('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear any existing alerts
+                $('.alert-danger, .alert-info').remove();
+                
+                const submitButton = $(this).find('button[type="submit"]');
+                submitButton.prop('disabled', true).html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...'
+                );
+
+                try {
+                    // Get the amount and bookingIds
+                    const amount = $('input[name="amount"]').val();
+                    let bookingIds = [];
+                    
+                    try {
+                        const bookingIdsInput = $('input[name="bookingIds"]').val();
+                        if (bookingIdsInput) {
+                            bookingIds = JSON.parse(bookingIdsInput);
+                        }
+                    } catch (parseError) {
+                        console.error('Error parsing bookingIds:', parseError);
+                    }
+
+                    if (!amount) {
+                        throw new Error('Amount is required. Please start from the services selection page.');
+                    }
+
+                    const requestBody = {
+                        amount: amount
+                    };
+                    
+                    if (bookingIds.length > 0) {
+                        requestBody.bookingIds = bookingIds;
+                    }
+                    
+                    console.log('Preparing to send request to:', this.action);
+                    console.log('Request body:', JSON.stringify(requestBody, null, 2));
+
+                    const response = await fetch(this.action, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    console.log('Response status:', response.status);
+                    
+                    const responseText = await response.text();
+                    console.log('Raw response:', responseText);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                        console.log('Parsed response data:', data);
+                    } catch (e) {
+                        console.error('Failed to parse response as JSON:', e);
+                        throw new Error('Invalid response from server');
+                    }
+                    
+                    if (data.success) {
+                        $('.payment-container').prepend(
+                            '<div class="alert alert-info">' +
+                            '<strong>Payment Initiated!</strong><br>' +
+                            'Please check your phone (254793004830) for the M-Pesa prompt...' +
+                            '</div>'
+                        );
+                    } else {
+                        throw new Error(data.message || 'Payment initiation failed');
+                    }
+                } catch (error) {
+                    console.error('Error during payment:', error);
+                    $('.payment-container').prepend(
+                        '<div class="alert alert-danger">' +
+                        '<strong>Error:</strong> ' + error.message +
+                        '</div>'
+                    );
+                    submitButton.prop('disabled', false).text('Pay with M-Pesa');
+                }
+            });
+        });
+    </script>
 </body>
 </html> 

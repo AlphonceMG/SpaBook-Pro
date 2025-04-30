@@ -1,56 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Add Bootstrap CSS and Scrollspy JavaScript -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Management - Eddah's Spa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #009688;
+            --secondary-color: #00796b;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-<style>
-    body {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-        min-height: 100vh;
-        margin-top: 50px;
-        margin-bottom: 0px; 
-        color: white; /* Optional: Set text color to contrast with the background */
-    }
-</style>
+        body {
+            background: var(--background-color);
+            min-height: 100vh;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
+        .main-content {
+            padding: 2rem;
+        }
+
+        .services-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .page-header {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .btn-action {
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .table th {
+            background-color: var(--background-color);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: var(--card-shadow);
+        }
+
+        .table-container {
+            max-height: calc(100vh - 300px);
+            overflow-y: auto;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 150, 136, 0.05);
+        }
+
+        .service-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 1rem;
+        }
+    </style>
 </head>
 <body>
- 
-<div class="container">
-    <h2>Admin Services</h2>
+    <div class="container-fluid">
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="mb-1">
+                            <i class="fas fa-concierge-bell me-2"></i>Service Management
+                            <span class="service-count">
+                                Total Services: <%= services.length %>
+                            </span>
+                        </h2>
+                        <p class="mb-0">Manage your spa services</p>
+                    </div>
+                    <a href="/admin/home" class="btn btn-light btn-action">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </a>
+                </div>
+            </div>
 
-    <!-- Add New Service Button -->
-    <a href="/admin/addservice" class="btn btn-primary mb-3">Add Service</a>
+            <!-- Flash Messages -->
+            <% if (messages.success) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= messages.success %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% } %>
+            <% if (messages.error) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <%= messages.error %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <% } %>
 
-    <a href="/admin/deleteservices" class="btn btn-danger mb-3">Delete Service</a>
+            <!-- Services Management Interface -->
+            <div class="services-table">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="h4 mb-0">All Services</h3>
+                    <div class="d-flex gap-2">
+                        <button id="deleteSelected" class="btn btn-danger btn-action" disabled>
+                            <i class="fas fa-trash me-2"></i>Delete Selected
+                        </button>
+                        <a href="/admin/addservice" class="btn btn-primary btn-action">
+                            <i class="fas fa-plus me-2"></i>Add New Service
+                        </a>
+                    </div>
+                </div>
 
-    <!-- Display Current Services in a Table -->
-    <h3>Current Services</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Service Name</th>
-                <th>Description</th>
-                <th>Price (Ksh)</th>
-                <th>Time (minutes)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% services.forEach(function(service) { %>
-                <tr>
-                    <td><%= service.name %></td>
-                    <td><%= service.description %></td>
-                    <td><%= service.price %></td>
-                    <td><%= service.time %></td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
-</div>
+                <form id="servicesForm" action="/admin/deleteservices" method="POST">
+                    <div class="table-container">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <input type="checkbox" class="form-check-input" id="selectAll">
+                                    </th>
+                                    <th>Service Name</th>
+                                    <th>Description</th>
+                                    <th style="width: 120px;">Price (KSH)</th>
+                                    <th style="width: 120px;">Duration</th>
+                                    <th style="width: 100px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (services.length === 0) { %>
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <p class="text-muted mb-0">No services available</p>
+                                        </td>
+                                    </tr>
+                                <% } else { %>
+                                    <% services.sort((a, b) => a.name.localeCompare(b.name)).forEach(service => { %>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-check-input service-checkbox" 
+                                                    name="selectedServices" value="<%= service._id %>">
+                                            </td>
+                                            <td><%= service.name %></td>
+                                            <td><%= service.description %></td>
+                                            <td><%= service.price %></td>
+                                            <td><%= service.time %> minutes</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-outline-primary btn-action me-1" 
+                                                        onclick="editService('<%= service._id %>')">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline-danger btn-action"
+                                                        onclick="deleteService('<%= service._id %>')">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('selectAll');
+            const serviceCheckboxes = document.querySelectorAll('.service-checkbox');
+            const deleteSelectedBtn = document.getElementById('deleteSelected');
+            const servicesForm = document.getElementById('servicesForm');
+
+            // Handle "Select All" checkbox
+            selectAll.addEventListener('change', function() {
+                serviceCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateDeleteButton();
+            });
+
+            // Handle individual checkboxes
+            serviceCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    updateDeleteButton();
+                    // Update "Select All" checkbox
+                    selectAll.checked = [...serviceCheckboxes].every(cb => cb.checked);
+                });
+            });
+
+            // Update delete button state
+            function updateDeleteButton() {
+                const checkedCount = [...serviceCheckboxes].filter(cb => cb.checked).length;
+                deleteSelectedBtn.disabled = checkedCount === 0;
+                deleteSelectedBtn.innerHTML = `<i class="fas fa-trash me-2"></i>Delete Selected (${checkedCount})`;
+            }
+
+            // Handle delete selected
+            deleteSelectedBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete the selected services?')) {
+                    servicesForm.submit();
+                }
+            });
+        });
+
+        // Individual service actions
+        function editService(serviceId) {
+            window.location.href = `/admin/editservice/${serviceId}`;
+        }
+
+        function deleteService(serviceId) {
+            if (confirm('Are you sure you want to delete this service?')) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/deleteservices';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selectedServices';
+                input.value = serviceId;
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </body>
 </html>
 

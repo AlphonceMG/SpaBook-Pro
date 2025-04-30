@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eddah's Spa</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <title>Eddah's Spa - Book Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 
@@ -17,33 +16,239 @@
             font-family: "Poppins", sans-serif;
         }
 
-        /* Add some spacing */
         body {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            margin-bottom: 0px; /* Adjust the value to your preference */
             background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-            color: white; /* Optional: Set text color to contrast with the background */
+            color: white;
         }
 
         .container-main {
-            padding-top: 80px; /* Adjust the value to your preference */
-            padding-bottom: 50px; /* Adjust the value to your preference */
+            padding-top: 40px;
+            padding-bottom: 50px;
         }
 
-        /* Add margin to the footer */
-        footer {
-            margin-top: auto;
-            text-align: center; /* Center-align footer content */
-            padding: 10px 0;
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
         }
 
-        /* Adjust styling for collapsed navigation */
-        @media (max-width: 768px) {
-            body {
-                padding-top: 56px; /* Adjust the value to your preference */
-            }
+        .card-header {
+            background-color: rgba(0, 150, 136, 0.8);
+            color: white;
+        }
+
+        .btn-link {
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            color: #e0e0e0;
+        }
+
+        .service-category {
+            background-color: rgba(0, 150, 136, 0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .service-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .service-item h6 {
+            color: #009688;
+            margin-bottom: 5px;
+        }
+
+        .specialist-section {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .specialist-card {
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .specialist-card:hover {
+            transform: translateY(-2px);
+            border-color: #009688;
+            box-shadow: 0 4px 12px rgba(0,150,136,0.15);
+        }
+
+        .specialist-card.selected {
+            background-color: #e8f5e9;
+            border-color: #009688;
+            position: relative;
+        }
+
+        .specialist-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #009688;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .specialist-card.auto-selected {
+            background-color: #e8f5e9;
+            border-color: #009688;
+            border-style: dashed;
+        }
+
+        .specialist-card h6 {
+            color: #009688;
+            font-size: 1.1em;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .specialist-card p {
+            color: #424242;
+            margin: 0;
+        }
+
+        .specialist-card small {
+            color: #757575;
+        }
+
+        .service-category {
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .service-category h5 {
+            color: #009688;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #009688;
+            padding-bottom: 8px;
+        }
+
+        .category-services {
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #009688;
+        }
+
+        .datetime-picker {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .selected-services-summary {
+            color: #333;
+        }
+
+        .selected-services-summary h5 {
+            color: #009688;
+            margin-bottom: 15px;
+        }
+
+        .summary-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .specialists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .selection-checkmark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #009688;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .auto-selected-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #009688;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        #bookAppointmentBtn {
+            background-color: #009688;
+            border-color: #00796b;
+            font-weight: 500;
+            padding: 12px 24px;
+            transition: all 0.3s ease;
+        }
+
+        #bookAppointmentBtn:hover:not(:disabled) {
+            background-color: #00796b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        #bookAppointmentBtn:disabled {
+            background-color: #e0e0e0;
+            border-color: #bdbdbd;
+            color: #757575;
+            cursor: not-allowed;
+        }
+
+        .flatpickr-input {
+            height: 45px;
+            font-size: 1.1em;
+            border-color: #009688;
+        }
+
+        .page-link {
+            color: #009688;
+            cursor: pointer;
+        }
+
+        .page-link:hover {
+            color: #00796b;
+            background-color: #e8f5e9;
+        }
+
+        .page-link.disabled {
+            color: #757575;
+            cursor: not-allowed;
+            pointer-events: none;
+            background-color: #f5f5f5;
         }
     </style>
 
@@ -51,108 +256,139 @@
 
 <body data-bs-spy="scroll" data-bs-target="#list-example" data-bs-offset="0" style="background-color: #f8f9fa;">
     <div class="container-main">
-        <div class="container mt-5">
+        <div class="container">
             <div id="accordion">
-                <!-- Collapsible Group Item for Staff -->
+                <!-- Selected Services Summary -->
                 <div class="card">
-                    <div class="card-header" id="headingStaff">
+                    <div class="card-header" id="headingServices">
                         <h5 class="mb-0">
-                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseStaff"
-                                aria-expanded="true" aria-controls="collapseStaff">
-                                Choose a Staff Member
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseServices"
+                                aria-expanded="true" aria-controls="collapseServices">
+                                Selected Services Summary
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseStaff" class="collapse show" aria-labelledby="headingStaff" data-parent="#accordion">
+                    <div id="collapseServices" class="collapse show" aria-labelledby="headingServices" data-parent="#accordion">
                         <div class="card-body">
-                            <!-- Content for Collapsible Group Item (Staff) goes here -->
-                            <div id="staffAccordion">
-                                <!-- Move 'staff-list' outside the loop -->
-                                <div class="list-group" id="staff-list">
-                                    <!-- Loop through selected services and display staff for each category -->
-                                    <% selectedServices.forEach(service => { %>
-                                        <div class="card">
-                                            <div class="card-header" id="category<%= service.category %>">
-                                                <h6 class="mb-0">
-                                                    <button class="btn btn-link" data-bs-toggle="collapse"
-                                                        data-bs-target="#categoryCollapse<%= service.category %>"
-                                                        aria-expanded="true"
-                                                        aria-controls="categoryCollapse<%= service.category %>">
-                                                        Category: <%= service.category %>
-                                                    </button>
-                                                </h6>
-                                            </div>
-                                            <div id="categoryCollapse<%= service.category %>"
-                                                class="collapse show" aria-labelledby="category<%= service.category %>"
-                                                data-parent="#staffAccordion">
-                                                <!-- Display staff names and specialties for the selected category -->
-                                                <% staff.filter(staffMember => staffMember.specialty.includes(service.category)).forEach(staffMember => { %>
-                                                    <button type="button"
-                                                        class="list-group-item list-group-item-action selected-service select-staff-btn"
-                                                        data-staff="<%= staffMember.firstName %> <%= staffMember.lastName %>"
-                                                        data-specialty="<%= staffMember.specialty %>"
-                                                        data-staff-id="<%= staffMember._id %>"
-                                                        onclick="selectStaff(this)"
-                                                        <% if (isStaffAvailable(staffMember, selectedDateTime, service)) { %>
-                                                            disabled
-                                                        <% } %>
-                                                    >
-                                                        <%= staffMember.firstName %> <%= staffMember.lastName %> - <%= staffMember.specialty %>
-                                                    </button>
-                                                <% }); %>
-                                            </div>
+                            <div class="selected-services-summary">
+                                <% 
+                                    // Group services by category
+                                    const servicesByCategory = {};
+                                    selectedServices.forEach(service => {
+                                        if (!servicesByCategory[service.category]) {
+                                            servicesByCategory[service.category] = [];
+                                        }
+                                        servicesByCategory[service.category].push(service);
+                                    });
+                                %>
+
+                                <% Object.entries(servicesByCategory).forEach(([category, services]) => { %>
+                                    <div class="service-category">
+                                        <h5><%= category %></h5>
+                                        <div class="category-services">
+                                            <% services.forEach(service => { %>
+                                                <div class="service-item">
+                                                    <h6><%= service.name %></h6>
+                                                    <p class="text-muted mb-0">Duration: <%= service.time %> minutes</p>
+                                                    <% if (service.price) { %>
+                                                        <p class="text-muted mb-0">Price: KES <%= service.price %></p>
+                                                    <% } %>
+                                                </div>
+                                            <% }); %>
                                         </div>
-                                    <% }) %>
-                                </div>
+                                    </div>
+                                <% }); %>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Collapsible Group Item #2 -->
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
+                <!-- Specialist Selection -->
+                                        <div class="card">
+                    <div class="card-header" id="headingSpecialist">
                         <h5 class="mb-0">
-                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
-                                Book an Appointment
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseSpecialist"
+                                aria-expanded="true" aria-controls="collapseSpecialist">
+                                Select Specialists
+                                                    </button>
+                        </h5>
+                    </div>
+                    <div id="collapseSpecialist" class="collapse show" aria-labelledby="headingSpecialist" data-parent="#accordion">
+                        <div class="card-body">
+                            <% 
+                            // First, create a map of unique specialists per category
+                            const specialistsByCategory = {};
+                            Object.entries(servicesByCategory).forEach(([category, services]) => {
+                                specialistsByCategory[category] = staff
+                                    .filter(s => s.specialty.includes(category))
+                                    // Remove duplicates based on _id
+                                    .filter((specialist, index, self) => 
+                                        index === self.findIndex(s => s._id.toString() === specialist._id.toString())
+                                    );
+                            });
+                            %>
+
+                            <% Object.entries(servicesByCategory).forEach(([category, services]) => { %>
+                                <div class="service-category">
+                                    <h5><%= category %> Services</h5>
+                                    <div class="specialist-section">
+                                        <% const categorySpecialists = specialistsByCategory[category]; %>
+                                        <% if (categorySpecialists.length === 1) { %>
+                                            <!-- Single specialist case -->
+                                            <div class="specialist-card auto-selected" 
+                                                 data-staff-id="<%= categorySpecialists[0]._id %>"
+                                                 data-staff-name="<%= categorySpecialists[0].firstName %> <%= categorySpecialists[0].lastName %>"
+                                                 data-category="<%= category %>">
+                                                <h6><%= categorySpecialists[0].firstName %> <%= categorySpecialists[0].lastName %></h6>
+                                                <p>Primary <%= category %> Specialist</p>
+                                                <small>Automatically selected - only specialist available</small>
+                                            </div>
+                                        <% } else { %>
+                                            <!-- Multiple specialists case -->
+                                            <div class="specialists-grid">
+                                                <% categorySpecialists.forEach(specialist => { %>
+                                                    <div class="specialist-card"
+                                                         data-staff-id="<%= specialist._id %>"
+                                                         data-staff-name="<%= specialist.firstName %> <%= specialist.lastName %>"
+                                                         data-category="<%= category %>">
+                                                        <h6><%= specialist.firstName %> <%= specialist.lastName %></h6>
+                                                        <p><%= category %> Specialist</p>
+                                                        <small>Click to select</small>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                        <% } %>
+                                        </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointment Time Selection -->
+                <div class="card">
+                    <div class="card-header" id="headingTime">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseTime"
+                                aria-expanded="false" aria-controls="collapseTime">
+                                Select Appointment Time
                             </button>
                         </h5>
                     </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div id="collapseTime" class="collapse" aria-labelledby="headingTime" data-parent="#accordion">
                         <div class="card-body">
-                            <!-- Integrate the date and time picker here -->
-                            <div class="container">
-                                <div class="input-group">
+                            <div class="datetime-picker">
+                                <div class="input-group mb-3">
                                     <input type="text" id="datetimepicker" class="form-control"
                                         placeholder="Select date and time">
                                     <div class="input-group-append">
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
                                 </div>
+                                <button id="bookAppointmentBtn" class="btn btn-primary w-100" disabled>
+                                    Book Appointment
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Collapsible Group Item #3 for selected services -->
-                <div class="card">
-                    <div class="card-header" id="headingThree">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                                aria-expanded="false" aria-controls="collapseThree">
-                                Services
-                            </button>
-                        </h5>
-                    </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                        <div class="card-body">
-                            <% console.log("selectedServices:", selectedServices); %>
-                            <ul>
-                                <!-- Loop through the selected services and generate a list -->
-                                <% selectedServices.forEach(service => { %>
-                                    <li><%= service.name %></li>
-                                <% }); %>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -165,7 +401,7 @@
                     <a class="page-link" href="/bookings/services">Previous</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="/bookings/registration">Next</a>
+                    <a class="page-link" id="nextButton" href="#" onclick="handleNextClick(event)">Next</a>
                 </li>
             </ul>
         </nav>
@@ -180,109 +416,194 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
-    let selectedStaff = null;
+        // Initialize variables
+        let selectedStaff = {};
+        const selectedServices = JSON.parse('<%- JSON.stringify(selectedServices || []) %>');
+        const servicesByCategory = {};
 
-    function filterStaff() {
-        console.log('filterStaff called');
-        const specialty = document.getElementById('serviceCategory').value;
-        const staffList = document.getElementById('staff-list');
-        staffList.innerHTML = '';
-
-        // Filter staff based on the selected service category and check staff availability
-        fetch(`/bookings/appointments/staff?specialty=${specialty}`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(staff => {
-                    const button = document.createElement('button');
-                    button.setAttribute('type', 'button');
-                    button.setAttribute('class', 'list-group-item list-group-item-action');
-                    button.setAttribute('data-staff', `${staff.firstName} ${staff.lastName}`);
-                    button.setAttribute('data-specialty', staff.specialty);
-                    button.setAttribute('data-staff-id', staff._id);
-                    button.classList.add('select-staff-btn');
-                    button.textContent = `${staff.firstName} ${staff.lastName} - ${staff.specialty}`;
-                    staffList.appendChild(button);
-
-                    // Attach event listener to each staff button
-                    button.addEventListener('click', selectStaff);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-
-    }
-
-    function selectStaff() {
-        const selectedStaffId = this.getAttribute('data-staff-id');
-        const selectedStaffName = this.getAttribute('data-staff');
-        const selectedStaffSpecialty = this.getAttribute('data-specialty');
-
-        if (selectedStaffId && selectedStaffName) {
-            selectedStaff = {
-                id: selectedStaffId,
-                name: selectedStaffName,
-                specialty: selectedStaffSpecialty
-            };
-
-            // Update hidden input fields
-            document.getElementById('selectedStaffId').value = selectedStaffId;
-        }
-
-        // Enable the button after booking or removal
-        this.removeAttribute('disabled');
-
-        // Update the Category name with the selected staff's name
-        const categoryHeading = document.querySelector(`#category${selectedStaffSpecialty} button`);
-        if (categoryHeading) {
-            categoryHeading.textContent = `Category: ${selectedStaffName}`;
-        }
-        console.log('selectStaff called');
-    }
-
-    document.getElementById('staff-list').addEventListener('click', function (event) {
-        const clickedButton = event.target.closest('.select-staff-btn');
-        if (clickedButton) {
-            selectStaff.call(clickedButton); // Use .call() to set 'this' to the clicked button
-        }
-        console.log('Click on staff-list');
-    });
-
-    function updateCollapsibleGroupName() {
-        // Update the Category name with the selected staff's name
-        if (selectedStaff) {
-            const categoryHeading = document.querySelector(`#category${selectedStaff.specialty} button`);
-            if (categoryHeading) {
-                categoryHeading.textContent = `Category: ${selectedStaff.name}`;
-            }
-        }
-    }
-
-    // Handle the event when the Collapse Group #3 is expanded
-    document.querySelector('#collapseThree').addEventListener('shown.bs.collapse', function () {
-        // Explicitly update the DOM with selected services
-        const selectedServicesList = document.getElementById('selected-services-list');
-        selectedServicesList.innerHTML = '';
+        // Group services by category
         selectedServices.forEach(service => {
-            const listItem = document.createElement('li');
-            listItem.textContent = service.name;
-            selectedServicesList.appendChild(listItem);
+            if (!servicesByCategory[service.category]) {
+                servicesByCategory[service.category] = [];
+            }
+            servicesByCategory[service.category].push(service);
+        });
+
+        // Function to check if all required selections are made
+        function areAllSelectionsComplete() {
+            const allCategoriesSelected = Object.keys(servicesByCategory).every(category => 
+                selectedStaff[category] !== undefined
+            );
+            const dateSelected = document.getElementById('datetimepicker').value !== '';
+            return allCategoriesSelected && dateSelected;
+        }
+
+        // Handle next button click
+        async function handleNextClick(event) {
+            event.preventDefault();
+            if (!areAllSelectionsComplete()) {
+                alert('Please select all specialists and appointment time before proceeding.');
+                return;
+            }
+            
+            // Try to book the appointment
+            await bookAppointment();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-select single specialists and store their information
+            document.querySelectorAll('.specialist-card.auto-selected').forEach(card => {
+                const category = card.getAttribute('data-category');
+                const staffId = card.getAttribute('data-staff-id');
+                const staffName = card.getAttribute('data-staff-name');
+
+                selectedStaff[category] = {
+                    id: staffId,
+                    name: staffName,
+                    category: category
+                };
+                
+                card.innerHTML += '<div class="auto-selected-badge">✓ Auto-selected</div>';
+            });
+
+            // Add click handlers for specialist selection
+            document.querySelectorAll('.specialist-card:not(.auto-selected)').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    const staffId = this.getAttribute('data-staff-id');
+                    const staffName = this.getAttribute('data-staff-name');
+
+                    // Remove selection from other cards in the same category
+                    document.querySelectorAll(`.specialist-card[data-category="${category}"]`)
+                        .forEach(c => {
+                            c.classList.remove('selected');
+                            const existingCheckmark = c.querySelector('.selection-checkmark');
+                            if (existingCheckmark) {
+                                existingCheckmark.remove();
+                            }
+                        });
+
+                    // Add selection to clicked card
+                    this.classList.add('selected');
+                    
+                    if (!this.querySelector('.selection-checkmark')) {
+                        const checkmark = document.createElement('div');
+                        checkmark.className = 'selection-checkmark';
+                        checkmark.innerHTML = '✓';
+                        this.appendChild(checkmark);
+                    }
+
+                    // Store selection
+                    selectedStaff[category] = {
+                        id: staffId,
+                        name: staffName,
+                        category: category
+                    };
+
+                    // Update the category header to show selection
+                    const categoryHeader = this.closest('.service-category').querySelector('h5');
+                    categoryHeader.innerHTML = `${category} Services - Selected: ${staffName}`;
+
+                    checkAllSpecialistsSelected();
         });
     });
 
-    let flatpickrInstance = null;
-    // Handle the event when the "Book an Appointment" section is expanded
-    document.querySelector('#collapseTwo').addEventListener('shown.bs.collapse', function () {
-        if (!flatpickrInstance) {
-            flatpickrInstance = flatpickr("#datetimepicker", {
+            // Initialize datetime picker with improved styling
+            const dateTimePicker = flatpickr("#datetimepicker", {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
                 minTime: "08:00",
                 maxTime: "18:00",
                 altInput: true,
-                altFormat: "F j, Y h:i K", // Use 'K' for AM/PM
-                time_24hr: false, // Use 12-hour time format
+                altFormat: "F j, Y at h:i K",
+                time_24hr: false,
+                minDate: "today",
+                disable: [
+                    function(date) {
+                        return date.getDay() === 0; // Disable Sundays
+                    }
+                ],
+                onChange: function(selectedDates) {
+                    checkAllSpecialistsSelected();
+                }
             });
+
+            // Initial check for all specialists selected
+            checkAllSpecialistsSelected();
+
+            // Add click handler for book appointment button
+            document.getElementById('bookAppointmentBtn').addEventListener('click', bookAppointment);
+        });
+
+        function checkAllSpecialistsSelected() {
+            const allCategoriesSelected = Object.keys(servicesByCategory).every(category => 
+                selectedStaff[category] !== undefined
+            );
+            
+            const dateSelected = document.getElementById('datetimepicker').value !== '';
+            
+            const bookButton = document.getElementById('bookAppointmentBtn');
+            const nextButton = document.getElementById('nextButton');
+            
+            bookButton.disabled = !(allCategoriesSelected && dateSelected);
+            nextButton.classList.toggle('disabled', !(allCategoriesSelected && dateSelected));
+            
+            if (!allCategoriesSelected) {
+                bookButton.textContent = 'Please select all specialists';
+            } else if (!dateSelected) {
+                bookButton.textContent = 'Please select appointment time';
+            } else {
+                bookButton.textContent = 'Book Appointment';
+            }
+
+            if (allCategoriesSelected && dateSelected) {
+                document.getElementById('collapseTime').classList.add('show');
+            }
         }
-    });
+
+        async function bookAppointment() {
+            const selectedDateTime = document.getElementById('datetimepicker').value;
+            if (!selectedDateTime) {
+                alert('Please select a date and time for your appointment');
+                return;
+            }
+
+            try {
+                const appointments = [];
+                Object.entries(servicesByCategory).forEach(([category, services]) => {
+                    const specialist = selectedStaff[category];
+                    if (!specialist) {
+                        throw new Error(`No specialist selected for ${category}`);
+                    }
+
+                    services.forEach(service => {
+                        appointments.push({
+                            staffId: specialist.id,
+                            serviceName: service.name,
+                            selectedDateTime: selectedDateTime
+                        });
+                    });
+                });
+
+                const response = await fetch('/bookings/appointments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ appointments })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    window.location.href = data.redirectUrl || '/bookings/registration';
+                } else {
+                    alert(data.error || 'Failed to book appointment');
+                }
+            } catch (error) {
+                console.error('Error booking appointment:', error);
+                alert(error.message || 'Failed to book appointment. Please try again.');
+            }
+        }
 </script>
 </body>
 </html>

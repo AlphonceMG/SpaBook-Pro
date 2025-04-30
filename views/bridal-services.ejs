@@ -1,133 +1,665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Add Bootstrap CSS and Scrollspy JavaScript -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridal Services - Eddah's Spa</title>
+    <!-- Modern CSS Framework -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
 <style>
-    #bridal{
-        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-        background-size: cover;
-        background-position: center;
-        height: 100vh; /* Set height to 100% of the viewport height */
-        display: flex; /* Use flexbox to center content vertically */
-        flex-direction: column; /* Stack flex items vertically */
-        justify-content: center; /* Center content vertically */
-        color: white; /* Set text color to contrast with the background */
-    }
-    #banner {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-        background-size: cover;
-        background-position: center;
-        height: 0px;
-    }
-    .logo {
-        width: 140px;
-        position: absolute;
-        top: 4%;
-        left: 10%;
+    :root {
+        --primary-color: #009688;
+        --secondary-color: #00796b;
+        --accent-color: #ffd700;
+        --text-dark: #333;
+        --text-light: #fff;
+        --gradient-1: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        --gradient-2: linear-gradient(45deg, var(--primary-color), var(--accent-color));
     }
 
-    .banner-text {
+    body {
+        background: var(--gradient-1);
+        color: var(--text-light);
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('/images/pattern.png');
+        opacity: 0.05;
+        pointer-events: none;
+        animation: patternMove 20s linear infinite;
+    }
+
+    @keyframes patternMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(50px, 50px); }
+    }
+
+    .page-header {
         text-align: center;
-        color: #fff;
-        padding-top: 180px;
+        margin-bottom: 40px;
+        position: relative;
     }
 
-    .banner-text h1 {
-        font-size: 30px;
-        font-family: "Kaushan Script";
+    .page-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-light);
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        animation: fadeInDown 1s ease forwards;
     }
 
-    .banner-text p {
-        font-size: 20px;
-        font-style: italic;
-    }
-    #bridal form {
-        text-align: center; /* Center align the form content */
-        margin-top: 10px; /* Add margin-top to the form */
-    }
-
-    #bridal form button {
-        margin-top: 10px; /* Add additional margin-top to the button */
+    .page-header p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 10px;
+        opacity: 0;
+        animation: fadeInUp 1s ease 0.3s forwards;
     }
 
+    .service-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        margin-bottom: 25px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        color: var(--text-dark);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        position: relative;
+        backdrop-filter: blur(10px);
+    }
+
+    .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-2);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .service-card.selected {
+        border: 2px solid var(--accent-color);
+        box-shadow: 0 15px 30px rgba(255, 215, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .service-card .card-content {
+        position: relative;
+        z-index: 2;
+        padding: 25px;
+    }
+
+    .service-section {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 30px;
+        margin-bottom: 40px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 1s ease;
+    }
+
+    .service-section h2 {
+        color: var(--text-light);
+        font-family: 'Playfair Display', serif;
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .service-section h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--accent-color);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s ease;
+    }
+
+    .service-section h2:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    .service-name {
+        color: var(--text-dark);
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+        transition: color 0.3s ease;
+    }
+
+    .service-price {
+        color: var(--primary-color);
+        font-weight: 500;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .service-price i {
+        color: var(--accent-color);
+    }
+
+    .toggle-bridal-service {
+        min-width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        color: var(--text-light);
+        border: none;
+        background: #28a745;
+    }
+
+    .toggle-bridal-service::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient-2);
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .toggle-bridal-service:hover::before {
+        opacity: 1;
+    }
+
+    .toggle-bridal-service[data-selected="true"],
+    .toggle-bridal-service.selected {
+        background: #dc3545;
+        transform: rotate(180deg);
+    }
+
+    .selected-services-panel {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 25px;
+        padding: 30px;
+        position: sticky;
+        top: 20px;
+        color: var(--text-dark);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: slideInRight 1s ease;
+    }
+
+    .selected-services-panel h3 {
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--primary-color);
+        position: relative;
+    }
+
+    .selected-services-panel h3::before {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: var(--accent-color);
+    }
+
+    .selected-service-item {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        animation: fadeInLeft 0.5s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .selected-service-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .selected-service-item .service-info {
+        flex: 1;
+    }
+
+    .selected-service-item .fw-bold {
+        color: var(--text-dark);
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .selected-service-item .text-muted {
+        color: #666 !important;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .selected-service-item .text-muted i {
+        color: var(--primary-color);
+    }
+
+    .total-deposit {
+        background: var(--gradient-1);
+        color: var(--text-light);
+        padding: 25px;
+        border-radius: 20px;
+        margin: 30px 0;
+        font-size: 1.3em;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .total-deposit::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+    }
+
+    .total-deposit:hover::before {
+        transform: translateX(100%);
+    }
+
+    .navigation-buttons {
+        margin-top: 50px;
+        margin-bottom: 70px;
+    }
+
+    .page-link {
+        background: var(--gradient-1);
+        border: none;
+        color: var(--text-light);
+        padding: 15px 30px;
+        border-radius: 30px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .page-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: var(--gradient-2);
+        color: var(--text-light);
+    }
+
+    .page-link i {
+        font-size: 1.2em;
+        transition: transform 0.3s ease;
+    }
+
+    .page-link:hover i {
+        transform: translateX(-5px);
+    }
+
+    .page-link:hover i.right {
+        transform: translateX(5px);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .service-section {
+            padding: 25px;
+        }
+        
+        .selected-services-panel {
+            position: relative;
+            top: 0;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+        }
+
+        .service-card {
+            margin-bottom: 20px;
+        }
+
+        .navigation-buttons {
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+    }
 </style>
 </head>
 <body>
-    <section id="banner">
-        <a href="/">
-            <!-- <img src="/images/logo.png" class="logo" alt="Logo"> -->
-        </a>
-        <div class="banner-text">
-            <!-- <h1>Eddah's Spa</h1>
-            <p>Indulge in Self-Care and Rejuvenation</p> -->
+    <div class="container py-5">
+        <div class="page-header">
+            <h1>Bridal Services</h1>
+            <p>Transform your special day with our exclusive bridal packages</p>
         </div>
-    </section>
 
-    <section id="bridal"><!-- Bridal Services List -->
-        <div class="container mt-4">
-            <h2>Bridal Services</h2>
-            <!-- Render bridal service list items -->
-            <section class="bridal-service-section">
-                <ul class="list-group">
-                    <% for (const bridalService of bridalServices) { %>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex flex-column">
-                            <div class="fw-bold"><%= bridalService.name %></div>
-                            <span class="custom-price">Price: Ksh <%= bridalService.price %></span>
+        <div class="row">
+            <div class="col-lg-8">
+                <section class="service-section">
+                    <h2>Available Services</h2>
+                    <div class="service-list">
+                        <% for (const bridalService of bridalServices) { %>
+                        <div class="service-card <%= bridalSelectedServices[bridalService.name] ? 'selected' : '' %>" data-bridal-service="<%= bridalService.name %>" data-service-price="<%= bridalService.price %>">
+                            <div class="card-content d-flex justify-content-between align-items-center">
+                                <div class="service-info">
+                                    <h5 class="service-name"><%= bridalService.name %></h5>
+                                    <div class="service-price">
+                                        <i class='bx bx-money'></i>
+                                        Ksh <%= bridalService.price %>
+                                    </div>
+                                </div>
+                                <button class="btn toggle-bridal-service" 
+                                        data-bridal-service="<%= bridalService.name %>" 
+                                        data-selected="<%= bridalSelectedServices[bridalService.name] %>">
+                                    <%= bridalSelectedServices[bridalService.name] ? '-' : '+' %>
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-primary toggle-bridal-service" data-bridal-service="<%= bridalService.name %>" data-selected="<%= bridalSelectedServices[bridalService.name] %>">+</button>
-                    </li>
-                    <% } %>
-                </ul>
-            </section>
+                        <% } %>
+                    </div>
+                </section>
+
+                <div class="navigation-buttons">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="/">
+                                    <i class='bx bx-chevron-left'></i>
+                                    Back Home
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="/bridal/registration">
+                                    Continue
+                                    <i class='bx bx-chevron-right right'></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="selected-services-panel">
+                    <h3>Selected Services</h3>
+                    <div id="selected-services-list">
+                        <!-- This will be populated by JavaScript -->
+                    </div>
+                    <div class="total-deposit" id="total-deposit">
+                        Total: Ksh 0
+                    </div>
+                </div>
+            </div>
         </div>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="/bridal/registration">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </section>
+    </div>
+
     <script>
         // Initialize bridalSelectedServices object from server data
-        const bridalSelectedServices = <%- JSON.stringify(bridalSelectedServices) %>;
+        const bridalSelectedServices = JSON.parse('<%- JSON.stringify(bridalSelectedServices) %>');
+        
+        // Function to update the selected services list and total
+        function updateSelectedServicesList() {
+            const selectedServicesList = document.getElementById('selected-services-list');
+            const totalDepositElement = document.getElementById('total-deposit');
+            let total = 0;
+            
+            // Clear the current list
+            selectedServicesList.innerHTML = '';
+            
+            // Add each selected service to the list
+            Object.entries(bridalSelectedServices).forEach(([serviceName, isSelected]) => {
+                if (isSelected) {
+                    // Find the service price from the original list
+                    const serviceCard = document.querySelector(`[data-bridal-service="${serviceName}"]`);
+                    const price = Number(serviceCard.dataset.servicePrice);
+                    
+                    console.log('Updating list with service:', {
+                        name: serviceName,
+                        price: price,
+                        priceType: typeof price
+                    });
 
-        // Function to toggle bridal service selection and deselection on the client
-        function toggleBridalService(bridalServiceName) {
-            const selected = !bridalSelectedServices[bridalServiceName]; // Toggle the selection
-
-            // Send an AJAX request to update the server-side session
-            $.post('/bridal/services/select-deselect' + (selected ? '/select' : '/deselect'), { bridalServiceName }, function (data) {
-                if (data.success) {
-                    bridalSelectedServices[bridalServiceName] = selected; // Update the client-side data
-                    // Update the button text to either "+" or "-"
-                    const button = document.querySelector(`button[data-bridal-service="${bridalServiceName}"]`);
-                    button.textContent = selected ? '-' : '+';
-                } else {
-                    // Handle the case where the server request fails
-                    console.error('Failed to update server session:', data.error);
+                    // Create and append the selected service item
+                    const serviceItem = document.createElement('div');
+                    serviceItem.className = 'selected-service-item animate__animated animate__fadeInLeft';
+                    serviceItem.innerHTML = `
+                        <div class="service-info">
+                            <div class="fw-bold">${serviceName}</div>
+                            <div class="text-muted">
+                                <i class='bx bx-money'></i>
+                                Ksh ${!isNaN(price) ? price.toLocaleString() : '0'}
+                            </div>
+                        </div>
+                    `;
+                    selectedServicesList.appendChild(serviceItem);
+                    
+                    // Add to total
+                    total += !isNaN(price) ? price : 0;
                 }
             });
+            
+            // Update total deposit display with animation
+            totalDepositElement.classList.add('animate__animated', 'animate__pulse');
+            totalDepositElement.textContent = `Total: Ksh ${total.toLocaleString()}`;
+            setTimeout(() => {
+                totalDepositElement.classList.remove('animate__animated', 'animate__pulse');
+            }, 1000);
+            
+            // If no services are selected, show a message
+            if (selectedServicesList.children.length === 0) {
+                selectedServicesList.innerHTML = '<p class="text-muted text-center mb-0">No services selected</p>';
+            }
+        }
+        
+        // Function to update button state
+        function updateButtonState(button, isSelected) {
+            button.textContent = isSelected ? '-' : '+';
+            button.dataset.selected = isSelected;
+            const card = button.closest('.service-card');
+            card.classList.toggle('selected', isSelected);
+            
+            // Add animation to the card
+            card.classList.add('animate__animated', isSelected ? 'animate__pulse' : 'animate__shake');
+            setTimeout(() => {
+                card.classList.remove('animate__animated', 'animate__pulse', 'animate__shake');
+            }, 1000);
+        }
+
+        // Function to toggle bridal service selection
+        async function toggleBridalService(bridalServiceName, button) {
+            const card = button.closest('.service-card');
+            const servicePrice = Number(card.dataset.servicePrice);
+            const selected = !bridalSelectedServices[bridalServiceName];
+            
+            try {
+                console.log('Sending service:', {
+                    name: bridalServiceName,
+                    price: servicePrice,
+                    priceType: typeof servicePrice
+                });
+
+                // Send request to update the server-side session
+                const response = await fetch('/bridal/services/select-deselect/' + (selected ? 'select' : 'deselect'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        bridalServiceName,
+                        servicePrice: servicePrice
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    bridalSelectedServices[bridalServiceName] = selected;
+                    updateButtonState(button, selected);
+                    updateSelectedServicesList();
+                    
+                    // Show success message
+                    showAlert(`Service ${selected ? 'selected' : 'deselected'} successfully`, 'success');
+                } else {
+                    showAlert('Error updating service selection', 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Error updating service selection', 'danger');
+            }
         }
 
         // Add event listeners to bridal service toggle buttons
-        const toggleButtons = document.querySelectorAll('.toggle-bridal-service');
-        toggleButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const bridalServiceName = button.getAttribute('data-bridal-service');
-                toggleBridalService(bridalServiceName);
-                // Change the button text to either "+" or "-"
-                button.textContent = button.textContent === '+' ? '-' : '+';
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-bridal-service').forEach((button) => {
+                button.addEventListener('click', function() {
+                    const bridalServiceName = this.getAttribute('data-bridal-service');
+                    toggleBridalService(bridalServiceName, this);
+                });
             });
+
+            // Initialize the selected services list and button states
+            document.querySelectorAll('.toggle-bridal-service').forEach((button) => {
+                const serviceName = button.getAttribute('data-bridal-service');
+                updateButtonState(button, bridalSelectedServices[serviceName]);
+            });
+            
+            // Update selected services list
+            updateSelectedServicesList();
         });
+
+        function showAlert(message, type) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            const alertsContainer = document.createElement('div');
+            alertsContainer.style.position = 'fixed';
+            alertsContainer.style.top = '20px';
+            alertsContainer.style.right = '20px';
+            alertsContainer.style.zIndex = '1050';
+            alertsContainer.innerHTML = alertHtml;
+            
+            document.body.appendChild(alertsContainer);
+            
+            setTimeout(() => {
+                alertsContainer.querySelector('.alert').classList.add('animate__fadeOutUp');
+                setTimeout(() => alertsContainer.remove(), 1000);
+            }, 5000);
+        }
     </script>
 </body>
 </html>

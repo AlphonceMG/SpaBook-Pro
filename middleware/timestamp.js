@@ -1,29 +1,12 @@
-//we come up with the current timestamp
-const current_timestamp = () => {
-    let year = new Date().getFullYear();
-
-    let month = new Date().getMonth();
-
-    month = month < 10 ? `0${month}` : month;
-
-    let day = new Date().getDay();
-
-    day = day < 10 ? `0${day}` : day;
-
-    let hour = new Date().getHours();
-
-    hour = hour < 10 ? `0${hour}` : hour;
-
-    let minute = new Date().getMinutes();
-
-    minute = minute < 10 ? `0${minute}` : minute;
-
-    let second = new Date().getSeconds();
-
-    second = second < 10 ? `0${second}` : second;
-
+// Timestamp utility function for generating current timestamp
+export function getTimestamp() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    const second = String(date.getSeconds()).padStart(2, '0');
+    
     return `${year}${month}${day}${hour}${minute}${second}`;
-
-};
-
-export const timestamp = current_timestamp();
+}

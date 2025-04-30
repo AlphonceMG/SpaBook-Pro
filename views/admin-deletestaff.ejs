@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Staff Members | Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a5d1a;
+            --primary-light: #2e8b2e;
+            --primary-dark: #0f3d0f;
+            --secondary-color: #4caf50;
+            --accent-color: #8bc34a;
+            --background-color: #f0f7f0;
+            --surface-color: #ffffff;
+            --text-color: #1c1c1c;
+            --text-light: #666666;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+            pointer-events: none;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-modern {
+            padding: 1rem 1.8rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, var(--danger-color), #ff4d4d);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+            color: white;
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 93, 26, 0.3);
+            color: white;
+        }
+
+        .staff-table {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .staff-table:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            font-weight: 500;
+            border: none;
+            padding: 1.2rem 1rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody td {
+            padding: 1.2rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .table tbody tr {
+            transition: var(--transition);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+
+        .form-check-input {
+            width: 1.3rem;
+            height: 1.3rem;
+            border-radius: 4px;
+            border: 2px solid var(--primary-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 93, 26, 0.2);
+        }
+
+        .staff-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .staff-id {
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .staff-specialty {
+            color: var(--primary-light);
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            background-color: rgba(76, 175, 80, 0.1);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .alert {
+            border-radius: var(--border-radius);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 2rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .alert-danger {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border-left: 4px solid #dc3545;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            color: #166534;
+            border-left: 4px solid #4caf50;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-light);
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 195, 74, 0.3);
+            color: white;
+        }
+
+        .gender-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            .page-header {
+                padding: 2rem;
+            }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-modern {
+                width: 100%;
+                justify-content: center;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .table thead {
+                display: none;
+            }
+
+            .table, .table tbody, .table tr, .table td {
+                display: block;
+                width: 100%;
+            }
+
+            .table tr {
+                margin-bottom: 1rem;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            }
+
+            .table td {
+                text-align: right;
+                padding: 0.8rem 1rem;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            .table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                width: 45%;
+                text-align: left;
+                font-weight: 600;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .selected-row {
+            background-color: rgba(76, 175, 80, 0.1) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="page-header fade-in">
+            <h2>
+                <i class="fas fa-users-cog"></i>
+                Manage Staff Members
+            </h2>
+        </div>
+
+        <!-- Flash Messages -->
+        <% if (messages.error) { %>
+            <div class="alert alert-danger fade-in" role="alert">
+                <i class="fas fa-exclamation-circle fa-lg"></i>
+                <%= messages.error %>
+            </div>
+        <% } %>
+        <% if (messages.success) { %>
+            <div class="alert alert-success fade-in" role="alert">
+                <i class="fas fa-check-circle fa-lg"></i>
+                <%= messages.success %>
+            </div>
+        <% } %>
+
+        <form action="/admin/deletestaff" method="POST" id="deleteStaffForm">
+            <div class="action-buttons fade-in">
+                <button type="submit" class="btn btn-modern btn-delete" id="deleteSelected">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete Selected
+                </button>
+                <a href="/admin/home" class="btn btn-modern btn-back">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+
+            <div class="staff-table fade-in">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px">
+                                    <input type="checkbox" id="selectAll" class="form-check-input">
+                                </th>
+                                <th>Staff Member</th>
+                                <th>Contact Information</th>
+                                <th>Specialty</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (staffMembers && staffMembers.length > 0) { %>
+                                <% staffMembers.forEach(staff => { %>
+                                    <tr class="fade-in">
+                                        <td data-label="Select">
+                                            <input type="checkbox" name="staffIds" value="<%= staff._id %>" class="form-check-input staff-checkbox">
+                                        </td>
+                                        <td data-label="Staff Member">
+                                            <div class="staff-name"><%= staff.firstName %> <%= staff.lastName %></div>
+                                            <div class="staff-id">ID: <%= staff.idNumber %></div>
+                                        </td>
+                                        <td data-label="Contact">
+                                            <div class="contact-info">
+                                                <div><i class="fas fa-envelope"></i><%= staff.email %></div>
+                                                <div><i class="fas fa-phone"></i><%= staff.phoneNumber %></div>
+                                            </div>
+                                        </td>
+                                        <td data-label="Specialty">
+                                            <span class="staff-specialty"><%= staff.specialty %></span>
+                                        </td>
+                                        <td data-label="Gender">
+                                            <span class="gender-icon">
+                                                <i class="fas <%= staff.gender.toLowerCase() === 'male' ? 'fa-mars' : 'fa-venus' %>"></i>
+                                                <%= staff.gender %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="empty-state fade-in">
+                                            <i class="fas fa-users-slash"></i>
+                                            <p>No staff members found</p>
+                                            <a href="/admin/addstaff" class="btn btn-modern btn-accent">
+                                                <i class="fas fa-plus"></i> Add Staff Member
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Select all checkbox functionality with animation
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.getElementsByClassName('staff-checkbox');
+            Array.from(checkboxes).forEach(checkbox => {
+                checkbox.checked = this.checked;
+                checkbox.closest('tr').classList.toggle('selected-row', this.checked);
+            });
+        });
+
+        // Individual checkbox handling with animation
+        document.querySelectorAll('.staff-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                this.closest('tr').classList.toggle('selected-row', this.checked);
+            });
+        });
+
+        // Form submission validation with modern alerts
+        document.getElementById('deleteStaffForm').addEventListener('submit', function(e) {
+            const checkboxes = document.getElementsByClassName('staff-checkbox');
+            let checked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+            if (!checked) {
+                e.preventDefault();
+                showAlert('Please select at least one staff member to delete.', 'warning');
+            } else {
+                if (!confirm('Are you sure you want to delete the selected staff member(s)? This action cannot be undone.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Modern alert function with animation
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade-in`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'warning' ? 'exclamation-triangle' : 'info-circle'} fa-lg me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            document.querySelector('.dashboard-container').insertBefore(alertDiv, document.querySelector('form'));
+
+            // Auto dismiss after 5 seconds
+            setTimeout(() => {
+                alertDiv.classList.add('fade-out');
+                setTimeout(() => alertDiv.remove(), 300);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

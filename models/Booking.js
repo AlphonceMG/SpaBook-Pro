@@ -4,15 +4,39 @@ const bookingSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
+		required: true
+	},
+	staffMember: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Staff",
+		required: true
 	},
 	service: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Service",
+		required: true
+	},
+	selectedDateTime: {
+		type: Date,
+		required: true
+	},
+	totalDeposit: {
+		type: Number,
+		required: true
 	},
 	status: {
 		type: String,
-		enum: ["pending", "confirmed", "completed", "canceled"],
-		default: "pending",
+		enum: ['pending', 'confirmed', 'cancelled'],
+		default: 'pending'
+	},
+	paymentStatus: {
+		type: String,
+		enum: ['unpaid', 'partially_paid', 'paid'],
+		default: 'unpaid'
+	},
+	createdAt: {
+		type: Date,
+		default: Date.now
 	},
 	notes: {
 		type: String,
@@ -29,17 +53,8 @@ const bookingSchema = new mongoose.Schema({
 	location: {
 		type: String,
 	},
-	paymentStatus: {
-		type: String,
-		enum: ["paid", "unpaid", "partially paid"],
-		default: "unpaid",
-	},
 	invoiceNumber: {
 		type: String,
-	},
-	staffMember: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Staff", // If a specific staff member is assigned
 	},
 	selectedServices: [
 		// You might want to adjust the structure based on your Service model
@@ -48,14 +63,14 @@ const bookingSchema = new mongoose.Schema({
 			ref: "Service",
 		},
 	],
-	selectedDateTime: {
-		type: Date,
-	},
-	totalDeposit: {
-		type: Number,
-	},
 	// Add more fields as needed
 });
+
+// Add indexes for better query performance
+bookingSchema.index({ user: 1, selectedDateTime: 1 });
+bookingSchema.index({ staffMember: 1, selectedDateTime: 1 });
+bookingSchema.index({ status: 1 });
+bookingSchema.index({ paymentStatus: 1 });
 
 const Booking = mongoose.model("Booking", bookingSchema);
 

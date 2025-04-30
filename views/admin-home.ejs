@@ -1,324 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Admin Dashboard</title>
-
-    <!-- Montserrat Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Eddah's Spa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <style>
+        :root {
+            --primary-color: #009688;
+            --secondary-color: #00796b;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            margin: 0;
-            padding: 0;
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
-            margin-bottom: 0px; /* Adjust the value to your preference */
-            background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-            color: #9e9ea4;
-            font-family: 'Montserrat', sans-serif;
+            color: white;
+            padding-top: 2rem;
         }
 
-        .material-icons-outlined {
-            vertical-align: middle;
-            line-height: 1px;
-            font-size: 35px;
+        .brand-container {
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
         }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: 260px 1fr 1fr 1fr;
-            grid-template-rows: 0.2fr 3fr;
-            grid-template-areas:
-                'sidebar header header header'
-                'sidebar main main main';
-            height: 100vh;
+        .brand-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
         }
 
-        /* ---------- HEADER ---------- */
-        .header {
-            grid-area: header;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px 0 30px;
-            box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: white;
         }
 
-        .menu-icon {
-            display: none;
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+            padding: 0.8rem 1rem;
+            margin: 0.2rem 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        /* ---------- SIDEBAR ---------- */
-
-        #sidebar {
-            grid-area: sidebar;
-            height: 100%;
-            background-color: #263043;
-            overflow-y: auto;
-            transition: all 0.5s;
-            -webkit-transition: all 0.5s;
+        .sidebar .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
         }
 
-        .sidebar-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 30px 30px 30px;
-            margin-bottom: 30px;
-        }
-
-        .sidebar-title > span {
-            display: none;
-        }
-
-        .sidebar-brand {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .sidebar-list {
-            padding: 0;
-            margin-top: 15px;
-            list-style-type: none;
-        }
-
-        .sidebar-list-item {
-            padding: 20px 20px 20px 20px;
-            font-size: 18px;
-        }
-
-        .sidebar-list-item:hover {
+        .sidebar .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
+            color: white;
         }
 
-        .sidebar-list-item > a {
-            text-decoration: none;
-            color: #9e9ea4;
+        .sidebar .nav-link i {
+            width: 24px;
+            text-align: center;
+            margin-right: 8px;
         }
 
-        .sidebar-responsive {
-            display: inline !important;
-            position: absolute;
-            z-index: 12 !important;
+        .main-content {
+            padding: 2rem;
         }
 
-        /* ---------- MAIN ---------- */
-
-        .main-container {
-            grid-area: main;
-            overflow-y: auto;
-            padding: 20px 20px;
-            color: rgba(255, 255, 255, 0.95);
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
         }
 
-        .main-title {
-            display: flex;
-            justify-content: space-between;
+        .stats-card:hover {
+            transform: translateY(-5px);
         }
 
-        .main-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            padding: 25px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .card a {
-            text-decoration: none; /* Remove underlining */
-            color: inherit; /* Use the default text color */
-        }
-
-        .card:first-child {
-            background-color: #2962ff;
-        }
-
-        .card:nth-child(2) {
-            background-color: #ff6d00;
-        }
-
-        .card:nth-child(3) {
-            background-color: #2e7d32;
-        }
-
-        .card:nth-child(4) {
-            background-color: #d50000;
-        }
-
-        .card:nth-child(5) {
-            background-color: #8a2be2; /* Violet */
-        }
-
-        .card:nth-child(6) {
-            background-color: #ffc107; /* Yellow */
-        }
-        .card-inner {
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .card-inner > .material-icons-outlined {
-            font-size: 45px;
+        .services-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
         }
 
-        /* ---------- MEDIA QUERIES ---------- */
-
-        /* Medium <= 992px */
-        @media screen and (max-width: 992px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: 0.2fr 3fr;
-                grid-template-areas:
-                    'header'
-                    'main';
-            }
-
-            #sidebar {
-                display: none;
-            }
-
-            .menu-icon {
-                display: inline;
-            }
-
-            .sidebar-title > span {
-                display: inline;
-            }
+        .table {
+            margin-bottom: 0;
         }
 
-        /* Small <= 768px */
-        @media screen and (max-width: 768px) {
-            .main-cards {
-                grid-template-columns: 1fr;
-                gap: 10px;
-                margin-bottom: 0;
-            }
-
-            .charts {
-                grid-template-columns: 1fr;
-                margin-top: 30px;
-            }
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: #666;
         }
 
-        /* Extra Small <= 576px */
-        @media screen and (max-width: 576px) {
-            .header-left {
-                display: none;
+        .btn-action {
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: var(--card-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                min-height: auto;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
             }
         }
     </style>
 </head>
 <body>
-<div class="grid-container">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <div class="brand-container">
+                    <img src="/images/logo.png" alt="Eddah's Spa Logo" class="brand-logo">
+                    <h4 class="brand-name">Eddah's Spa</h4>
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="/admin/home">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="/admin/services">
+                        <i class="fas fa-concierge-bell"></i> Services
+                    </a>
+                    <a class="nav-link" href="/admin/addservice">
+                        <i class="fas fa-plus-circle"></i> Add Service
+                    </a>
+                    <a class="nav-link" href="/admin/deleteservices">
+                        <i class="fas fa-minus-circle"></i> Delete Services
+                    </a>
+                    <a class="nav-link" href="/admin/addstaff">
+                        <i class="fas fa-user-plus"></i> Add Staff
+                    </a>
+                    <a class="nav-link" href="/admin/deletestaff">
+                        <i class="fas fa-user-minus"></i> Delete Staff
+                    </a>
+                    <a class="nav-link" href="/admin/userjourney">
+                        <i class="fas fa-chart-line"></i> User Journey
+                    </a>
+                    <a class="nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </div>
 
-    <!-- Main -->
-    <main class="main-container">
-        <div class="main-title">
-            <h2>ADMIN DASHBOARD</h2>
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <h2><i class="fas fa-chart-pie me-2"></i>Admin Dashboard</h2>
+                    <p class="mb-0">Welcome to Eddah's Spa Administration Panel</p>
+                </div>
+
+                <!-- Flash Messages -->
+                <% if (messages.success) { %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= messages.success %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= messages.error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                                <i class="fas fa-spa"></i>
+                            </div>
+                            <h3 class="h5 mb-2">Total Services</h3>
+                            <h2 class="mb-0"><%= typeof totalServices !== 'undefined' ? totalServices : 0 %></h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-success bg-opacity-10 text-success">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <h3 class="h5 mb-2">Active Bookings</h3>
+                            <h2 class="mb-0">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-info bg-opacity-10 text-info">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="h5 mb-2">Total Customers</h3>
+                            <h2 class="mb-0">0</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Table -->
+                <div class="services-table p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="h4 mb-0">Recent Services</h3>
+                        <div>
+                            <a href="/admin/services" class="btn btn-outline-primary btn-action me-2">
+                                <i class="fas fa-list me-2"></i>View All Services
+                            </a>
+                            <a href="/admin/addservice" class="btn btn-primary btn-action">
+                                <i class="fas fa-plus me-2"></i>Add New Service
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Service Name</th>
+                                    <th>Description</th>
+                                    <th>Price (KSH)</th>
+                                    <th>Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (!services || services.length === 0) { %>
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4">
+                                            <p class="text-muted mb-0">No services available</p>
+                                        </td>
+                                    </tr>
+                                <% } else { %>
+                                    <% services.forEach(service => { %>
+                                        <tr>
+                                            <td><%= service.name %></td>
+                                            <td><%= service.description %></td>
+                                            <td><%= service.price %></td>
+                                            <td><%= service.time %> minutes</td>
+                                        </tr>
+                                    <% }) %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="main-cards">
-
-            <div class="card">
-                <a href="/admin/services">
-                    <div class="card-inner">
-                        <h3>Services</h3>
-                        <span class="material-icons-outlined">inventory_2</span>
-                    </div>
-                    <h1>31</h1>
-                </a>
-            </div>
-
-
-            <div class="card">
-                <a href="/admin/customers">
-                    <div class="card-inner">
-                        <h3>Customers</h3>
-                        <span class="material-icons-outlined">groups</span>
-                    </div>
-                    <h1>56</h1>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="admin-revenue.html">
-                    <div class="card-inner">
-                        <h3>Revenue</h3>
-                        <span class="material-icons-outlined">notification_important</span>
-                    </div>
-                    <h1>56</h1>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="/admin/addstaff">
-                    <div class="card-inner">
-                        <h3>Add Staff</h3>
-                        <span class="material-icons-outlined">person_add</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="/admin/deletestaff">
-                    <div class="card-inner">
-                        <h3>Delete Staff</h3>
-                        <span class="material-icons-outlined">person_remove</span>
-                    </div>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="/admin/userjourney">
-                    <div class="card-inner">
-                        <h3>User statistics</h3>
-                        <span class="material-icons-outlined">analytics</span>
-                    </div>
-                </a>
-            </div>
-                
-        </div>
-    </main>
-    <!-- End Main -->
-
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.5/apexcharts.min.js"></script>
-<script>
-    // SIDEBAR TOGGLE
-
-    var sidebarOpen = false;
-    var sidebar = document.getElementById('sidebar');
-
-    function openSidebar() {
-        if (!sidebarOpen) {
-            sidebar.classList.add('sidebar-responsive');
-            sidebarOpen = true;
-        }
-    }
-
-    function closeSidebar() {
-        if (sidebarOpen) {
-            sidebar.classList.remove('sidebar-responsive');
-            sidebarOpen = false;
-        }
-    }
-
-</script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
 </body>
 </html>

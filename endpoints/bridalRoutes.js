@@ -18,24 +18,23 @@ const validate = [
 // Your GET route for rendering the Bridal Services page
 router.get("/bridal/services", async (req, res) => {
 	try {
-		// Check if it's a page reload (GET request) or moving to the next page (POST request)
-		if (req.method === "GET") {
-			// Clear selected services from the session on page reload
+		// Don't clear selected services on page reload anymore
+		if (!req.session.selectedServices) {
 			req.session.selectedServices = [];
 		}
 
 		// Fetch bridal services from the database
 		const bridalServices = await BridalService.find({});
 
-		// Retrieve selected services from the session or initialize an empty array
-		const selectedServiceNames = (req.session.selectedServices || []).map(
+		// Retrieve selected services from the session
+		const selectedServiceNames = req.session.selectedServices.map(
 			(service) => service.name
 		);
 
 		// Initialize bridalSelectedServices object
 		const bridalSelectedServices = {};
 
-		// Set the selection state for each bridal service based on the selectedServiceNames array
+		// Set the selection state for each bridal service
 		for (const service of bridalServices) {
 			bridalSelectedServices[service.name] = selectedServiceNames.includes(
 				service.name
@@ -43,8 +42,8 @@ router.get("/bridal/services", async (req, res) => {
 		}
 
 		console.log("Bridal Services:", bridalServices);
+		console.log("Selected Services:", req.session.selectedServices);
 		console.log("Selected Service Names:", selectedServiceNames);
-		console.log("Bridal Selected Services:", bridalSelectedServices);
 
 		res.render("bridal-services", {
 			bridalServices,
@@ -53,9 +52,7 @@ router.get("/bridal/services", async (req, res) => {
 		});
 	} catch (error) {
 		console.error("Error fetching bridal services:", error);
-		res
-			.status(500)
-			.send("Error fetching bridal services. Please try again later.");
+		res.status(500).send("Error fetching bridal services. Please try again later.");
 	}
 });
 
@@ -65,24 +62,54 @@ router.post("/bridal/services/select-deselect/:action", async (req, res) => {
 	const action = req.params.action;
 
 	try {
-		if (action === "select") {
-			// Update the session to include the selected service
-			req.session.selectedServices = [
-				...(req.session.selectedServices || []),
-				{ name: serviceName },
-			];
-		} else if (action === "deselect") {
-			// Update the session to remove the deselected service
-			req.session.selectedServices = (
-				req.session.selectedServices || []
-			).filter((service) => service.name !== serviceName);
+		// Fetch the service details from the database
+		const service = await BridalService.findOne({ name: serviceName });
+		
+		if (!service) {
+			return res.status(404).json({ error: "Service not found" });
 		}
 
-		console.log("Action:", action);
-		console.log("Service Name:", serviceName);
-		console.log("Updated Selected Services:", req.session.selectedServices);
+		console.log("Database service:", {
+			name: service.name,
+			price: service.price,
+			priceType: typeof service.price
+		});
 
-		res.json({ success: true, selected: action === "select" });
+		// Initialize selectedServices if needed
+		if (!req.session.selectedServices) {
+			req.session.selectedServices = [];
+		}
+
+		if (action === "select") {
+			// Add the service with its price
+			const serviceToAdd = {
+				name: service.name,
+				price: Number(service.price) // Convert to number explicitly
+			};
+			console.log("Adding service:", serviceToAdd);
+			req.session.selectedServices.push(serviceToAdd);
+		} else if (action === "deselect") {
+			// Remove the service
+			req.session.selectedServices = req.session.selectedServices.filter(
+				(s) => s.name !== serviceName
+			);
+		}
+
+		// Save session explicitly
+		req.session.save((err) => {
+			if (err) {
+				console.error("Error saving session:", err);
+				return res.status(500).json({ error: "Error saving selection" });
+			}
+
+			console.log("Session services after update:", req.session.selectedServices);
+
+			res.json({
+				success: true,
+				selected: action === "select",
+				selectedServices: req.session.selectedServices
+			});
+		});
 	} catch (error) {
 		console.error("Error updating bridal service selection:", error);
 		res.status(500).json({ error: "Error selecting services" });
@@ -92,13 +119,49 @@ router.post("/bridal/services/select-deselect/:action", async (req, res) => {
 // Route for Bridal Registration
 router.get("/bridal/registration", async (req, res) => {
 	try {
-		// Render the Bridal registration form
+		// Ensure session exists
+		if (!req.session.selectedServices) {
+			req.session.selectedServices = [];
+		}
+
+		console.log("Initial session services:", req.session.selectedServices);
+
+		// Fetch fresh service data for selected services
+		const updatedSelectedServices = await Promise.all(
+			req.session.selectedServices.map(async (selectedService) => {
+				const service = await BridalService.findOne({ name: selectedService.name });
+				console.log("Found service from DB:", service);
+				
+				const updatedService = {
+					name: selectedService.name,
+					price: service ? Number(service.price) : 0
+				};
+				console.log("Updated service:", updatedService);
+				return updatedService;
+			})
+		);
+
+		// Calculate total deposit
+		const totalDeposit = updatedSelectedServices.reduce((sum, service) => {
+			console.log(`Adding to sum: ${service.name} - ${service.price}`);
+			return sum + Number(service.price || 0);
+		}, 0);
+
+		console.log("Final services to render:", updatedSelectedServices);
+		console.log("Final total deposit:", totalDeposit);
+
 		res.render("bridal-registration", {
-			registrationStatus: req.session.registrationStatus,
+			registrationStatus: req.session.registrationStatus || '',
+			bridalSelectedServices: updatedSelectedServices,
+			totalDeposit: totalDeposit
 		});
 	} catch (error) {
-		console.error("Error fetching bridal registration");
-		res.status(500).send("Error fetching bridal registration");
+		console.error("Error fetching bridal registration:", error);
+		res.render("bridal-registration", {
+			registrationStatus: "Error loading registration page",
+			bridalSelectedServices: [],
+			totalDeposit: 0
+		});
 	}
 });
 router.post("/bridal/registration", validate, async (req, res) => {

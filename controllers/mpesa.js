@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "dotenv";
+import { getTimestamp } from "../middleware/timestamp.js";
 
 config();
 
@@ -41,71 +42,97 @@ class MpesaController {
 		}
 	}
 
-	async lipaNaMpesaOnline(req, res) {
+	async lipaNaMpesaOnline(req) {
 		try {
+			console.log('Starting MPesa payment process');
+			
 			const token = req.token;
+			if (!token) {
+				throw new Error('OAuth token is missing');
+			}
+
 			const auth = `Bearer ${token}`;
+			console.log('Using auth token:', token);
 
 			// Getting the timestamp
-			const timestamp = require("../middleware/timestamp").timestamp;
+			const timestamp = getTimestamp();
+			console.log('Generated timestamp:', timestamp);
 
 			const url = process.env.lipa_na_mpesa_url;
 			const bs_short_code = process.env.lipa_na_mpesa_shortcode;
 			const passkey = process.env.lipa_na_mpesa_passkey;
+			const testPhoneNumber = process.env.party_a;
+
+			console.log('Checking MPesa configuration:', {
+				url: !!url,
+				bs_short_code: !!bs_short_code,
+				passkey: !!passkey,
+				testPhoneNumber: !!testPhoneNumber,
+				actualPhone: testPhoneNumber
+			});
 
 			if (!bs_short_code || !passkey) {
 				throw new Error("Business short code or passkey is missing.");
 			}
 
-			// You should validate other input fields here
+			if (!testPhoneNumber) {
+				throw new Error("Test phone number (party_a) is missing from configuration.");
+			}
+
+			if (!url) {
+				throw new Error("MPesa API URL is missing from configuration.");
+			}
+
+			// Get amount from request body
+			const { amount } = req.body;
+			if (!amount) {
+				throw new Error("Amount is required");
+			}
 
 			const password = Buffer.from(
 				`${bs_short_code}${passkey}${timestamp}`
 			).toString("base64");
-			const transcation_type = "CustomerPayBillOnline";
-			const amount = "1"; // You can enter any amount
-			const partyA = process.env.party_a; // Should follow the format: 2547xxxxxxxx
-			const partyB = process.env.lipa_na_mpesa_shortcode;
-			const phoneNumber = process.env.party_a; // Should follow the format: 2547xxxxxxxx
-			const callBackUrl = "https://sandbox.safaricom.co.ke/mpesa/"; // Replace with your actual callback URL
-			const accountReference = "eddahs-spa";
-			const transaction_desc = "Testing lipa na mpesa functionality";
-
+			
+			// Format the phone number to ensure it's correct
+			const formattedPhone = testPhoneNumber.toString().replace('+', '').replace(/^0/, '254');
+			
 			const stkPushRequest = {
 				BusinessShortCode: bs_short_code,
 				Password: password,
 				Timestamp: timestamp,
-				TransactionType: transcation_type,
-				Amount: amount,
-				PartyA: partyA,
-				PartyB: partyB,
-				PhoneNumber: phoneNumber,
-				CallBackURL: callBackUrl,
-				AccountReference: accountReference,
-				TransactionDesc: transaction_desc,
+				TransactionType: "CustomerPayBillOnline",
+				Amount: amount.toString(),
+				PartyA: formattedPhone,
+				PartyB: bs_short_code,
+				PhoneNumber: formattedPhone,
+				CallBackURL: process.env.result_url || "https://sandbox.safaricom.co.ke/mpesa/",
+				AccountReference: "eddahs-spa",
+				TransactionDesc: "Eddah's Spa Payment"
 			};
+
+			console.log('Sending STK Push Request:', JSON.stringify(stkPushRequest, null, 2));
 
 			const { data } = await axios.post(url, stkPushRequest, {
 				headers: {
 					Authorization: auth,
+					'Content-Type': 'application/json'
 				},
 			});
 
-			// The response will contain details for creating the pop-up on the user's phone
-			// You can extract and handle this data as needed
+			console.log('MPesa API Response:', data);
 
-			return res.send({
+			return {
 				success: true,
-				message: data,
-			});
+				message: data
+			};
 		} catch (err) {
-			console.error("Error in lipaNaMpesaOnline:", err);
-
-			// Send an error response here
-			return res.status(500).send({
-				success: false,
-				message: "Failed to initiate M-Pesa payment.",
+			console.error("Error in lipaNaMpesaOnline:", {
+				message: err.message,
+				response: err.response?.data,
+				stack: err.stack
 			});
+			
+			throw new Error(err.response?.data?.errorMessage || err.message || "Failed to initiate M-Pesa payment");
 		}
 	}
 	lipaNaMpesaOnlineCallback(req, res) {

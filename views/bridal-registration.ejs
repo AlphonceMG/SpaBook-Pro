@@ -1,182 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridal Booking</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridal Registration - Eddah's Spa</title>
+    <!-- Modern CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.4/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+<style>
+    :root {
+        --primary-color: #009688;
+        --secondary-color: #00796b;
+        --accent-color: #ffd700;
+        --text-dark: #333;
+        --text-light: #fff;
+        --gradient-1: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        --gradient-2: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        --gradient-3: linear-gradient(to right, rgba(0, 150, 136, 0.8), rgba(0, 121, 107, 0.8));
+    }
+
     body {
-      width: 500px;
-      margin: 0 auto;
-      padding: 50px;
-      background: linear-gradient(rgba(0, 0, 0, 0.5), #009688);
-      background-size: cover;
-      height: 100vh;
-      color: white;
-      font-family: 'Nanum Gothic';
+        background: var(--gradient-1);
+        color: var(--text-light);
+        min-height: 100vh;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow-x: hidden;
     }
 
-    div.elem-group {
-      margin: 20px 0;
-    }
-
-    div.elem-group.inlined {
-      width: 49%;
-      float: left;
-      margin-right: 1%;
-    }
-
-    label {
-      display: block;
-      padding-bottom: 10px;
-      font-size: 1.25em;
-    }
-    input, select, textarea {
-      border-radius: 4px;
-      border: 2px solid #555;
-      box-sizing: border-box;
-      font-size: 1em;
-      width: 100%;
-      padding: 10px;
-    }
-
-    div.elem-group.inlined input {
-      width: 95%;
-      display: inline-block;
-    }
-
-    textarea {
-      height: 150px;
-    }
-
-    hr {
-      border: 1px dotted #ccc;
-    }
-
-    button {
-      height: 40px;
-      background: orange;
-      border: none;
-      color: white;
-      font-size: 1.25em;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      border: 2px solid black;
-    }
-
-    /* Media query for smaller viewports */
-    @media (max-width: 600px) {
-      div.elem-group.inlined {
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        float: none;
-        margin-right: 0;
-      }
+        height: 100%;
+        background: url('/images/pattern.png');
+        opacity: 0.05;
+        pointer-events: none;
+        animation: patternMove 20s linear infinite;
     }
-  </style>
+
+    @keyframes patternMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(50px, 50px); }
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .page-header h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-light);
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        animation: fadeInDown 1s ease forwards;
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-top: 10px;
+        opacity: 0;
+        animation: fadeInUp 1s ease 0.3s forwards;
+    }
+
+    .registration-form {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+        animation: slideInUp 1s ease;
+    }
+
+    .registration-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: var(--gradient-2);
+    }
+
+    .form-section {
+        margin-bottom: 35px;
+    }
+
+    .form-section h3 {
+        color: var(--primary-color);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        position: relative;
+        display: inline-block;
+    }
+
+    .form-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--accent-color);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.5s ease;
+    }
+
+    .form-section:hover h3::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    .form-floating {
+        margin-bottom: 20px;
+    }
+
+    .form-floating > label {
+        color: #666;
+        font-weight: 500;
+    }
+
+    .form-control {
+        border: 2px solid rgba(0, 150, 136, 0.1);
+        border-radius: 12px;
+        padding: 12px 20px;
+        height: auto;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 150, 136, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        color: var(--primary-color);
+        transform: scale(0.85) translateY(-1rem) translateX(0.15rem);
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group-text {
+        background: var(--gradient-1);
+        border: none;
+        color: var(--text-light);
+        border-radius: 12px 0 0 12px;
+    }
+
+    .input-group .form-control {
+        border-radius: 0 12px 12px 0;
+    }
+
+    .btn-primary {
+        background: var(--gradient-1);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: var(--gradient-2);
+    }
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+        transform: translateX(100%);
+    }
+
+    .selected-services-summary {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 1s ease;
+    }
+
+    .selected-services-summary h3 {
+        color: var(--text-light);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .service-item {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 15px 20px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        animation: fadeInLeft 0.5s ease;
+    }
+
+    .service-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .service-name {
+        color: var(--text-dark);
+        font-weight: 500;
+    }
+
+    .service-price {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+
+    .total-section {
+        background: var(--gradient-1);
+        color: var(--text-light);
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 20px;
+        text-align: right;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Navigation Buttons */
+    .navigation-buttons {
+        margin-top: 50px;
+        margin-bottom: 70px;
+    }
+
+    .page-link {
+        background: var(--gradient-1);
+        border: none;
+        color: var(--text-light) !important;
+        padding: 15px 30px;
+        border-radius: 30px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 10px;
+    }
+
+    .page-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        background: var(--gradient-2);
+    }
+
+    .page-link i {
+        font-size: 1.2em;
+        transition: transform 0.3s ease;
+    }
+
+    .page-link:hover i.bx-chevron-left {
+        transform: translateX(-5px);
+    }
+
+    .page-link:hover i.bx-chevron-right {
+        transform: translateX(5px);
+    }
+
+    .pagination {
+        gap: 15px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+        }
+
+        .registration-form {
+            padding: 25px;
+        }
+
+        .form-section h3 {
+            font-size: 1.5rem;
+        }
+
+        .selected-services-summary {
+            margin-top: 30px;
+        }
+    }
+</style>
 </head>
 <body>
-  <form action="/bridal/registration" method="POST">
-    <div class="elem-group">
-      <label for="name">First Name</label>
-      <input type="text" id="firstName" name="firstName" placeholder="John" pattern="[A-Za-z]{3,20}" required>
+    <div class="container py-5">
+        <div class="page-header">
+            <h1>Bridal Registration</h1>
+            <p>Complete your booking details for a perfect bridal experience</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="registration-form">
+                    <form id="bridalRegistrationForm" action="/bridal/registration" method="POST">
+                        <div class="form-section">
+                            <h3>Personal Information</h3>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                                <label for="firstName">First Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                                <label for="lastName">Last Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="emailAddress" name="emailAddress" placeholder="Email Address" required>
+                                <label for="emailAddress">Email Address</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required>
+                                <label for="phoneNumber">Phone Number</label>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3>Wedding Details</h3>
+                            <div class="form-floating mb-3">
+                                <input type="date" class="form-control" id="weddingDate" name="weddingDate" required>
+                                <label for="weddingDate">Wedding Date</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="weddingLocation" name="weddingLocation" placeholder="Wedding Location" required>
+                                <label for="weddingLocation">Wedding Location</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="brideMaids" name="brideMaids" placeholder="Bridesmaids (comma-separated)" required>
+                                <label for="brideMaids">Bridesmaids (comma-separated)</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="specialRequests" name="specialRequests" placeholder="Special Requests" style="height: 100px"></textarea>
+                                <label for="specialRequests">Special Requests or Notes</label>
+                            </div>
+                        </div>
+
+                        <div class="navigation-buttons">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-between">
+                                    <li class="page-item">
+                                        <a class="page-link" href="/bridal/services">
+                                            <i class='bx bx-chevron-left'></i>
+                                            Back to Services
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <button type="submit" class="page-link">
+                                            Complete Registration
+                                            <i class='bx bx-chevron-right'></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="selected-services-summary">
+                    <h3>Selected Services</h3>
+                    <% if (Array.isArray(bridalSelectedServices) && bridalSelectedServices.length > 0) { %>
+                        <% bridalSelectedServices.forEach(service => { %>
+                            <% const price = Number(service.price); %>
+                            <div class="service-item animate__animated animate__fadeInLeft">
+                                <span class="service-name"><%= service.name %></span>
+                                <span class="service-price">Ksh <%= !isNaN(price) ? price.toLocaleString() : '0' %></span>
+                            </div>
+                        <% }); %>
+                        
+                        <div class="total-section animate__animated animate__fadeInUp">
+                            <% 
+                            const total = bridalSelectedServices.reduce((sum, service) => {
+                                const price = Number(service.price);
+                                return sum + (!isNaN(price) ? price : 0);
+                            }, 0); 
+                            %>
+                            Total Deposit: Ksh <%= total.toLocaleString() %>
+                        </div>
+                    <% } else { %>
+                        <div class="no-services-message animate__animated animate__fadeIn">
+                            <p class="text-center text-light mb-3">No services selected.</p>
+                            <div class="text-center">
+                                <a href="/bridal/services" class="btn btn-outline-light">
+                                    <i class='bx bx-chevron-left'></i>
+                                    Go Back to Services
+                                </a>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="elem-group">
-      <label for="name">Last Name</label>
-      <input type="text" id="lastName" name="lastName" placeholder="Doe" pattern="[A-Za-z]{3,20}" required>
-    </div>
-    <div class="elem-group">
-      <label for="email">E-mail</label>
-      <input type="email" id="emailAddress" name="emailAddress" placeholder="john.doe@email.com" required>
-    </div>
-    <div class="elem-group">
-      <label for="phone">Phone</label>
-      <input type="text" id="phoneNumber" name="phoneNumber" placeholder="+254" pattern="\+254[17][0-9]{8}" required>
-    </div>
-    <hr>
-    <div class="elem-group">
-      <label for="adult">Bride maids</label>
-      <input type="number" id="brideMaids" name="brideMaids" placeholder="2" min="0" required>
-    </div>
-    <div class="elem-group">
-      <label for="weddingDate">Wedding Date</label>
-      <input type="date" id="weddingDate" name="weddingDate" required>
-    </div>
-    <div class="elem-group">
-      <label for="location">Select Location (County)</label>
-      <select id="location" name="weddingLocation" required>
-        <option value="">Choose county from the List</option>
-        <option value="baringo">Baringo</option>
-        <option value="bomet">Bomet</option>
-        <option value="bungoma">Bungoma</option>
-        <option value="busia">Busia</option>
-        <option value="elgeyo marakwet">Elgeyo Marakwet</option>
-        <option value="embu">Embu</option>
-        <option value="garissa">Garissa</option>
-        <option value="homa bay">Homa Bay</option>
-        <option value="isiolo">Isiolo</option>
-        <option value="kajiado">Kajiado</option>
-        <option value="kakamega">Kakamega</option>
-        <option value="kericho">Kericho</option>
-        <option value="kiambu">Kiambu</option>
-        <option value="kilifi">Kilifi</option>
-        <option value="kirinyaga">Kirinyaga</option>
-        <option value="kisii">Kisii</option>
-        <option value="kisumu">Kisumu</option>
-        <option value="kitui">Kitui</option>
-        <option value="kwale">Kwale</option>
-        <option value="laikipia">Laikipia</option>
-        <option value="lamu">Lamu</option>
-        <option value="machakos">Machakos</option>
-        <option value="makueni">Makueni</option>
-        <option value="mandera">Mandera</option>
-        <option value="meru">Meru</option>
-        <option value="migori">Migori</option>
-        <option value="marsabit">Marsabit</option>
-        <option value="mombasa">Mombasa</option>
-        <option value="muranga">Muranga</option>
-        <option value="nairobi">Nairobi</option>
-        <option value="nakuru">Nakuru</option>
-        <option value="nandi">Nandi</option>
-        <option value="narok">Narok</option>
-        <option value="nyamira">Nyamira</option>
-        <option value="nyandarua">Nyandarua</option>
-        <option value="nyeri">Nyeri</option>
-        <option value="samburu">Samburu</option>
-        <option value="siaya">Siaya</option>
-        <option value="taita taveta">Taita Taveta</option>
-        <option value="tana river">Tana River</option>
-        <option value="tharaka nithi">Tharaka Nithi</option>
-        <option value="trans nzoia">Trans Nzoia</option>
-        <option value="turkana">Turkana</option>
-        <option value="uasin gishu">Uasin Gishu</option>
-        <option value="vihiga">Vihiga</option>
-        <option value="wajir">Wajir</option>
-        <option value="pokot">West Pokot</option>
-      </select>
-    </div>
-    <hr>
-    <button type="submit">Book Now</button>
-  </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('bridalRegistrationForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Add loading state to submit button
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalText = submitButton.innerHTML;
+                submitButton.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Processing...
+                `;
+                submitButton.disabled = true;
+
+                // Collect form data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                // Submit form
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message and redirect
+                        showAlert('Registration successful! Redirecting...', 'success');
+                        setTimeout(() => {
+                            window.location.href = data.redirectUrl || '/bridal/confirmation';
+                        }, 2000);
+                    } else {
+                        // Show error message
+                        showAlert(data.message || 'Registration failed. Please try again.', 'danger');
+                        submitButton.innerHTML = originalText;
+                        submitButton.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('An error occurred. Please try again.', 'danger');
+                    submitButton.innerHTML = originalText;
+                    submitButton.disabled = false;
+                });
+            });
+        });
+
+        function showAlert(message, type) {
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show animate__animated animate__fadeInDown" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            const alertsContainer = document.createElement('div');
+            alertsContainer.style.position = 'fixed';
+            alertsContainer.style.top = '20px';
+            alertsContainer.style.right = '20px';
+            alertsContainer.style.zIndex = '1050';
+            alertsContainer.innerHTML = alertHtml;
+            
+            document.body.appendChild(alertsContainer);
+            
+            setTimeout(() => {
+                alertsContainer.querySelector('.alert').classList.add('animate__fadeOutUp');
+                setTimeout(() => alertsContainer.remove(), 1000);
+            }, 5000);
+        }
+    </script>
 </body>
-<script>
-  var currentDateTime = new Date();
-  var year = currentDateTime.getFullYear();
-  var month = currentDateTime.getMonth() + 1;
-  var date = currentDateTime.getDate() + 1;
-
-  if (date < 10) {
-    date = '0' + date;
-  }
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  var dateTomorrow = year + "-" + month + "-" + date;
-  var weddingDate = document.querySelector("#weddingDate");
-
-  weddingDate.setAttribute("min", dateTomorrow);
-</script>
 </html>
