@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Payment Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff1f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .error-icon {
+            color: #dc3545;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .error-title {
+            color: #dc3545;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .error-description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .error-message {
+            background-color: #fff1f0;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            color: #dc3545;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            background-color: #0074cc;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #005baa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-icon">✕</div>
+        <div class="error-title">
+            Payment Failed
+        </div>
+        <div class="error-description">
+            We encountered an error while processing your payment.
+        </div>
+        <div class="error-message">
+            <%= errorMessage %>
+        </div>
+        <a href="/mpesa/payment" class="back-button">Try Again</a>
+    </div>
+</body>
+</html> 

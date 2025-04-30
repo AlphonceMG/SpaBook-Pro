@@ -148,14 +148,14 @@ class MpesaController {
 			const responseCode = req.body.Body.stkCallback["ResultCode"];
 
 			if (responseCode === "0") {
-				// Payment was successful, render the payment success page with the M-Pesa receipt number
-				return res.render("payment-success", { mpesaReceiptNumber, message });
+				// Payment was successful
+				return res.render("mpesa-success", { mpesaReceiptNumber, message });
 			} else {
-				// Payment was not successful, render the payment error page with the error message
-				return res.render("payment-error", { errorMessage: message });
+				// Payment was not successful
+				return res.render("mpesa-error", { errorMessage: message });
 			}
-		} catch (err) {
-			console.error("Error in lipaNaMpesaOnlineCallback:", err);
+		} catch (error) {
+			console.error("Error in lipaNaMpesaOnlineCallback:", error);
 			return res.status(500).send({
 				success: false,
 				message: "Failed to process M-Pesa callback.",

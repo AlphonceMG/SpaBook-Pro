@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Payment Success</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f7f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .success-icon {
+            color: #28a745;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            color: #28a745;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .success-description {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .order-details {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .order-number-label {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .order-number {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .complement {
+            color: #28a745;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✓</div>
+        <div class="success-title">
+            Payment Complete
+        </div>
+        <div class="success-description">
+            Thank you for completing the payment! You will shortly receive an email confirmation.
+        </div>
+        <div class="order-details">
+            <div class="order-number-label">Transaction ID</div>
+            <div class="order-number"><%= mpesaReceiptNumber %></div>
+            <div class="complement">Thank You!</div>
+        </div>
+    </div>
+</body>
+</html> 

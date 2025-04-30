@@ -387,7 +387,8 @@ router.post("/bookings/registration", async (req, res) => {
 			// Set the booking status in the session to indicate a successful booking
 			req.session.bookingStatus = "Successfully booked";
 
-			res.redirect("/bookings/registration");
+			// Redirect to M-Pesa payment page
+			res.redirect("/mpesa/payment");
 		}
 	} catch (error) {
 		console.error("Error registering user:", error);
